@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeopardy! &mdash; Bikini Bottom Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Fixed mute toggle -->
+  <button id="mute-btn" class="mute-btn" title="Toggle sound" aria-label="Toggle sound">
+    <svg class="icon-speaker" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+    <svg class="icon-speaker-muted" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+  </button>
+
+  <!-- ===================== SETUP SCREEN ===================== -->
+  <div id="setup-screen" class="view">
+    <div class="setup-card">
+      <h1 class="setup-title">JEOPARDY!</h1>
+      <p class="setup-subtitle">Add 2&ndash;10 players to start</p>
+
+      <div id="player-list" class="player-list"></div>
+
+      <button id="add-player-btn" class="add-btn" type="button">+ Add Player</button>
+
+      <div class="upload-row">
+        <label class="upload-label" for="game-data-upload">Custom question data (.json)</label>
+        <input type="file" id="game-data-upload" accept=".json,application/json">
+      </div>
+
+      <button id="start-game-btn" class="start-btn" type="button" disabled>Start Game</button>
+    </div>
+  </div>
+
+  <!-- ===================== GAME BOARD ===================== -->
+  <div id="game-board" class="view hidden">
+    <div id="round-title" class="round-title">Jeopardy!</div>
+    <div id="board-grid" class="board-grid"></div>
+    <div id="round-action" class="round-action hidden">
+      <button id="next-round-btn" class="start-btn" type="button">Next Round &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ===================== CLUE MODAL ===================== -->
+  <div id="clue-modal" class="overlay hidden">
+    <div class="modal-content">
+      <div id="clue-header" class="modal-header">Category &mdash; $Value</div>
+      <div id="clue-text" class="clue-text">Question text</div>
+      <div id="answer-text" class="answer-text hidden">Answer text</div>
+      <button id="show-answer-btn" type="button">Show Answer</button>
+
+      <div id="eval-controls" class="eval-controls hidden">
+        <div id="player-pills" class="player-pills"></div>
+        <div class="action-buttons">
+          <button id="btn-correct" class="btn-correct" type="button">Correct</button>
+          <button id="btn-incorrect" class="btn-incorrect" type="button">Incorrect</button>
+          <button id="btn-no-answer" class="btn-no-answer" type="button">No Answer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== DAILY DOUBLE ===================== -->
+  <div id="daily-double-overlay" class="overlay hidden">
+    <div class="modal-content dd-content">
+      <div class="dd-text">DAILY DOUBLE!</div>
+      <div class="wager-form">
+        <div id="wager-info" class="wager-info">Player &mdash; Score: $0</div>
+        <input type="number" id="wager-input" class="wager-input" min="5" step="5" placeholder="Wager amount">
+        <button id="submit-wager-btn" class="wager-submit" type="button">Submit Wager</button>
+        <div id="wager-error" class="wager-error hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== FINAL JEOPARDY ===================== -->
+  <div id="final-jeopardy" class="view hidden">
+    <div class="fj-container">
+      <div id="fj-title" class="fj-title">Final Jeopardy</div>
+      <div id="fj-content"></div>
+    </div>
+  </div>
+
+  <!-- ===================== GAME OVER ===================== -->
+  <div id="game-over" class="view hidden">
+    <div class="go-card">
+      <div id="winner-text" class="winner-text"><svg class="icon-trophy" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg> <span id="winner-name">Winner</span></div>
+      <table class="final-scores">
+        <thead>
+          <tr><th>Player</th><th>Score</th></tr>
+        </thead>
+        <tbody id="final-scores-body"></tbody>
+      </table>
+      <button id="play-again-btn" class="start-btn" type="button">Play Again</button>
+    </div>
+  </div>
+
+  <!-- ===================== SCOREBOARD ===================== -->
+  <div id="scoreboard" class="hidden">
+    <!-- player cards populated by JS -->
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

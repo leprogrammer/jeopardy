@@ -1,0 +1,25 @@
+{
+  "rounds": [
+    {
+      "name": "Jeopardy",
+      "categories": [
+        {
+          "name": "Pop Culture",
+          "clues": [
+            {
+              "value": 200,
+              "question": "In the Marvel Cinematic Universe, this character wields the hammer Mjolnir and is the God of Thunder.",
+              "answer": "Who is Thor?",
+              "isDailyDouble": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalJeopardy": {
+    "category": "American Government",
+    "question": "This 1803 Supreme Court decision, authored by Chief Justice John Marshall, established the principle of judicial review — the power of courts to strike down laws that conflict with the Constitution.",
+    "answer": "What is Marbury v. Madison?"
+  }
+}
