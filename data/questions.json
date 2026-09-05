@@ -4,12 +4,426 @@
       "name": "Jeopardy",
       "categories": [
         {
-          "name": "Pop Culture",
+          "name": "Oceanography & Marine Life",
           "clues": [
             {
               "value": 200,
-              "question": "In the Marvel Cinematic Universe, this character wields the hammer Mjolnir and is the God of Thunder.",
+              "question": "Holding the title of the largest animal known ever to have existed, this marine mammal can weigh up to 200 tons.",
+              "answer": "What is the blue whale?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 400,
+              "question": "Reaching a depth of nearly 36,000 feet, the Challenger Deep is located in this western Pacific Ocean trench.",
+              "answer": "What is the Mariana Trench?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 600,
+              "question": "This warm ocean current originates in the Gulf of Mexico and flows across the Atlantic, bringing milder climates to Western Europe.",
+              "answer": "What is the Gulf Stream?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Unlike almost all other fish which are cold-blooded, this large, deep-bodied pelagic fish was confirmed in 2015 to be fully warm-blooded.",
+              "answer": "What is the opah?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1000,
+              "question": "Discovered in 1977 along the Galápagos Rift, these seafloor mineral chimneys host unique ecosystems fueled by chemosynthesis rather than sunlight.",
+              "answer": "What are hydrothermal vents?",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "World Geography",
+          "clues": [
+            {
+              "value": 200,
+              "question": "Discharging more water than the next seven largest rivers combined, this South American river flows into the Atlantic Ocean.",
+              "answer": "What is the Amazon River?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 400,
+              "question": "Located on the border of Nepal and China in the Mahalangur Himal sub-range, this peak is Earth's highest mountain above sea level.",
+              "answer": "What is Mount Everest?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 600,
+              "question": "Spanning eleven time zones across eastern Europe and northern Asia, this is the world's largest country by land area.",
+              "answer": "What is Russia?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Situated on the northern shore of Lake Victoria, Kampala serves as the capital and largest city of this East African nation.",
+              "answer": "What is Uganda?",
+              "isDailyDouble": true
+            },
+            {
+              "value": 1000,
+              "question": "This narrow waterway connects the Atlantic Ocean to the Mediterranean Sea and separates Spain from Morocco.",
+              "answer": "What is the Strait of Gibraltar?",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "Science & Nature",
+          "clues": [
+            {
+              "value": 200,
+              "question": "With atomic number 6, this chemical element's ability to form stable bonds with many elements makes it the chemical backbone of all organic life.",
+              "answer": "What is carbon?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 400,
+              "question": "Often nicknamed the powerhouse of the eukaryotic cell, this organelle produces the majority of the cell's ATP.",
+              "answer": "What is the mitochondrion?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 600,
+              "question": "Sitting directly above the troposphere, this atmospheric layer contains the ozone layer which absorbs ultraviolet radiation.",
+              "answer": "What is the stratosphere?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Symbolized by 'h', this fundamental physical constant relates the energy carried by a photon to its frequency.",
+              "answer": "What is Planck's constant?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1000,
+              "question": "Discovered serendipitously in 1928 by Alexander Fleming, this first modern antibiotic was derived from Penicillium mold.",
+              "answer": "What is penicillin?",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "Pop Culture & Cinema",
+          "clues": [
+            {
+              "value": 200,
+              "question": "In the Marvel Cinematic Universe, this Asgardian Avenger wields Mjolnir and is portrayed by Chris Hemsworth.",
               "answer": "Who is Thor?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 400,
+              "question": "Directed by James Cameron, this 1997 epic romance and disaster film tied the record for the most Academy Awards won with 11 Oscars.",
+              "answer": "What is Titanic?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 600,
+              "question": "Greta Gerwig directed this 2023 fantasy comedy blockbuster starring Margot Robbie and Ryan Gosling.",
+              "answer": "What is Barbie?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Released in November 1982, this Michael Jackson album remains the best-selling studio album in global music history.",
+              "answer": "What is Thriller?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1000,
+              "question": "This Japanese animator co-founded Studio Ghibli and directed masterpieces such as 'Spirited Away' and 'Princess Mononoke'.",
+              "answer": "Who is Hayao Miyazaki?",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "History & Legends",
+          "clues": [
+            {
+              "value": 200,
+              "question": "Adopted by the Continental Congress on July 4, 1776, this document severed the American colonies' ties to the British Crown.",
+              "answer": "What is the Declaration of Independence?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 400,
+              "question": "Built for Pharaoh Khufu around 2560 BC, this ancient Egyptian tomb is the oldest and only surviving Wonder of the Ancient World.",
+              "answer": "What is the Great Pyramid of Giza?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 600,
+              "question": "On Christmas Day in the year 800, Pope Leo III crowned this King of the Franks as the first Holy Roman Emperor.",
+              "answer": "Who is Charlemagne?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Sealed by King John of England at Runnymede in 1215, this 'Great Charter' first established the principle that everyone is subject to the law.",
+              "answer": "What is the Magna Carta?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1000,
+              "question": "Waged intermittently from 1337 to 1453 over the French throne, this series of armed conflicts famously lasted 116 years.",
+              "answer": "What is the Hundred Years' War?",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "Literature & Mythology",
+          "clues": [
+            {
+              "value": 200,
+              "question": "In Greek myth, this demigod son of Zeus was condemned to perform twelve legendary labors by King Eurystheus.",
+              "answer": "Who is Heracles?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 400,
+              "question": "Opening with the line 'Call me Ishmael', this 1851 Herman Melville novel chronicles Captain Ahab's obsessive pursuit of a white sperm whale.",
+              "answer": "What is Moby-Dick?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 600,
+              "question": "In Norse mythology, this shapeshifting trickster is the father of Hel, Fenrir, and the World Serpent Jormungandr.",
+              "answer": "Who is Loki?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Subtitled 'The Modern Prometheus', this 1818 gothic novel was written by an 18-year-old Mary Shelley during a rainy summer in Switzerland.",
+              "answer": "What is Frankenstein?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1000,
+              "question": "This 14th-century Italian narrative poem by Dante Alighieri guides the reader through Inferno, Purgatorio, and Paradiso.",
+              "answer": "What is the Divine Comedy?",
+              "isDailyDouble": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Double Jeopardy",
+      "categories": [
+        {
+          "name": "Space & Astronomy",
+          "clues": [
+            {
+              "value": 400,
+              "question": "This fourth planet from the Sun is home to Olympus Mons, a shield volcano nearly three times the height of Mount Everest.",
+              "answer": "What is Mars?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "First proposed by Georges Lemaître, this prevailing cosmological model posits that the observable universe originated approximately 13.8 billion years ago.",
+              "answer": "What is the Big Bang theory?",
+              "isDailyDouble": true
+            },
+            {
+              "value": 1200,
+              "question": "Launched on December 25, 2021, this primary space observatory operates near the Sun-Earth L2 Lagrange point with a 6.5-meter gold-coated mirror.",
+              "answer": "What is the James Webb Space Telescope?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1600,
+              "question": "Defined by the Schwarzschild radius, this theoretical boundary around a black hole marks the threshold where escape velocity exceeds the speed of light.",
+              "answer": "What is the event horizon?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 2000,
+              "question": "Discovered in 1967 by astronomer Jocelyn Bell Burnell, these rapidly rotating magnetized neutron stars emit regular pulses of radiation.",
+              "answer": "What are pulsars?",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "World Cuisine & Food Science",
+          "clues": [
+            {
+              "value": 400,
+              "question": "Created in Naples in 1889 to honor an Italian queen, this pizza showcases the colors of Italy's flag with tomato, mozzarella, and basil.",
+              "answer": "What is Pizza Margherita?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Named for a French physician, this chemical reaction between amino acids and reducing sugars gives seared meat and baked bread their browned crusts and savory aromas.",
+              "answer": "What is the Maillard reaction?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1200,
+              "question": "Harvested by hand from the stigmas of Crocus sativus flowers, this pungent golden spice is the most expensive culinary ingredient by weight.",
+              "answer": "What is saffron?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1600,
+              "question": "Codified by Auguste Escoffier, Béchamel, Velouté, Espagnole, Sauce Tomat, and Hollandaise are known in French cuisine as these fundamental sauces.",
+              "answer": "What are the mother sauces?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 2000,
+              "question": "Hailing from Oaxaca and Puebla, this intricate traditional Mexican sauce family commonly incorporates dried chiles, nuts, seeds, spices, and chocolate.",
+              "answer": "What is mole?",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "Inventions & Technology",
+          "clues": [
+            {
+              "value": 400,
+              "question": "Established in 1969 by the U.S. Department of Defense, this groundbreaking packet-switching network was the precursor to the global Internet.",
+              "answer": "What is ARPANET?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Around 1440 in Mainz, Germany, this craftsman introduced movable metal type to Europe, igniting a revolution in the spread of knowledge.",
+              "answer": "Who is Johannes Gutenberg?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1200,
+              "question": "Invented at Bell Labs in 1947 by Shockley, Bardeen, and Brattain, this miniature semiconductor device replaced bulky vacuum tubes in electronic circuits.",
+              "answer": "What is the transistor?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1600,
+              "question": "In a seminal 1936 paper, this British mathematician conceived an abstract computing device that formalized the modern foundation of computer science.",
+              "answer": "Who is Alan Turing?",
+              "isDailyDouble": true
+            },
+            {
+              "value": 2000,
+              "question": "Published in October 2008 under the pseudonym Satoshi Nakamoto, this nine-page whitepaper introduced the first decentralized cryptocurrency.",
+              "answer": "What is Bitcoin?",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "World Capitals & Landmarks",
+          "clues": [
+            {
+              "value": 400,
+              "question": "Home to the Colosseum, Trevi Fountain, and the independent enclave of Vatican City, this capital is hailed as the 'Eternal City'.",
+              "answer": "What is Rome?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Commissioned in 1631 by Mughal Emperor Shah Jahan to house the tomb of his favorite wife Mumtaz Mahal, this ivory-white marble mausoleum stands in Agra, India.",
+              "answer": "What is the Taj Mahal?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1200,
+              "question": "Resting over 11,900 feet above sea level in the Andes mountains, this Bolivian administrative center is the highest capital city in the world.",
+              "answer": "What is La Paz?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1600,
+              "question": "Erected as the grand entrance to the 1889 Exposition Universelle in Paris, this 1,083-foot wrought-iron lattice tower was initially condemned as an eyesore.",
+              "answer": "What is the Eiffel Tower?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 2000,
+              "question": "Famous for its rock-cut architecture and water conduit system, this ancient Nabataean capital carved into red sandstone cliffs lies in southern Jordan.",
+              "answer": "What is Petra?",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "Music, Art & Architecture",
+          "clues": [
+            {
+              "value": 400,
+              "question": "Painted by Leonardo da Vinci between 1503 and 1519, this masterpiece displayed in the Louvre is celebrated for its subject's subtle, elusive expression.",
+              "answer": "What is the Mona Lisa?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Premiered in Vienna in 1824 when the composer was profoundly deaf, Ludwig van Beethoven's Symphony No. 9 culminates in this celebrated choral movement.",
+              "answer": "What is 'Ode to Joy'?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1200,
+              "question": "Depicting the view from his asylum room in Saint-Rémy-de-Provence, 'The Starry Night' was created in June 1889 by this Dutch Post-Impressionist painter.",
+              "answer": "Who is Vincent van Gogh?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1600,
+              "question": "Designed by Antoni Gaudí with organic Art Nouveau spires, this soaring Roman Catholic minor basilica in Barcelona has been under construction since 1882.",
+              "answer": "What is the Basílica de la Sagrada Família?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 2000,
+              "question": "A pioneer of the Prairie School, this American master designed iconic structures such as Fallingwater in Pennsylvania and the spiral Guggenheim Museum in New York.",
+              "answer": "Who is Frank Lloyd Wright?",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "Words, Idioms & Languages",
+          "clues": [
+            {
+              "value": 400,
+              "question": "Derived from the ancient Greek word for 'purification', this term denotes the emotional release or therapeutic purging experienced by viewing drama.",
+              "answer": "What is catharsis?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "Boasting nearly one billion native speakers predominantly in East Asia, this group of dialects constitutes the most spoken first language on Earth.",
+              "answer": "What is Mandarin Chinese?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1200,
+              "question": "From Greek roots meaning 'running back again', this word describes a sequence of characters that reads identically forward and backward, such as 'racecar'.",
+              "answer": "What is a palindrome?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 1600,
+              "question": "Named for a blunder-prone character in Richard Sheridan's 1775 play 'The Rivals', this error involves substituting an incorrect word for a similar-sounding one.",
+              "answer": "What is a malapropism?",
+              "isDailyDouble": false
+            },
+            {
+              "value": 2000,
+              "question": "Combining the German words for 'damage' and 'joy', this compound noun describes the complex pleasure felt when witnessing someone else's misfortune.",
+              "answer": "What is Schadenfreude?",
               "isDailyDouble": false
             }
           ]
@@ -18,7 +432,7 @@
     }
   ],
   "finalJeopardy": {
-    "category": "American Government",
+    "category": "American Government & Law",
     "question": "This 1803 Supreme Court decision, authored by Chief Justice John Marshall, established the principle of judicial review — the power of courts to strike down laws that conflict with the Constitution.",
     "answer": "What is Marbury v. Madison?"
   }
