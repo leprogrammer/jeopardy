@@ -1,6 +1,6 @@
-# Standalone Jeopardy Game Website — Implementation Plan
+# Standalone Jeopardy Game Website (Bikini Bottom Edition) — Implementation Plan
 
-Build a fully client-side Jeopardy game that loads custom questions from a JSON file and supports score tracking for 2–10 players. No frameworks, no build tools, no external dependencies — vanilla HTML, CSS, and JavaScript (ES modules).
+Build a fully client-side Jeopardy game that loads custom questions from a JSON file and supports score tracking for 2–10 players. No frameworks, no build tools, no external dependencies — vanilla HTML, CSS, and JavaScript (ES modules), styled with the **Bikini Bottom / Hallmark** design system.
 
 ---
 
@@ -10,7 +10,7 @@ Build a fully client-side Jeopardy game that loads custom questions from a JSON 
 project-root/
 ├── index.html              # Single-page app entry point
 ├── css/
-│   └── style.css           # All styling (theme, grid, modals, scoreboard, responsive)
+│   └── style.css           # All styling (Bikini Bottom theme, grid, modals, scoreboard, responsive)
 ├── js/
 │   ├── app.js              # Main entry — setup, JSON loading, view transitions, orchestration
 │   ├── audio.js            # Web Audio API synthesized sound effects
@@ -19,6 +19,7 @@ project-root/
 │   └── players.js          # Player management (add/remove, scores, active player tracking)
 ├── data/
 │   └── questions.json      # Sample question set (user-replaceable)
+├── implementation_plan.md  # Architectural design & implementation blueprint
 └── README.md               # Usage guide, JSON schema reference, customization docs
 ```
 
@@ -28,12 +29,14 @@ project-root/
 
 | Decision | Choice | Rationale |
 |---|---|---|
-| **Color scheme** | NY Knicks — Blue `#006BB6`, Orange `#F58426`, Dark Navy `#1D1160`, White `#FFFFFF`, BG `#0a1628` | User preference |
-| **Grid size** | Configurable — any number of categories × any number of clues | Board auto-sizes via CSS Grid + CSS custom property `--num-categories` |
+| **Design Language & Theme** | Bikini Bottom Nautical (`oklch` color space via Hallmark review) | Playful aesthetic with deep lagoon ocean backgrounds, SpongeBob Yellow primary accents with AAA contrast, Patrick Coral for incorrect/destructive actions, Kelp Green for correct answers, Jellyfish Teal category headers, and Tiki Brass porthole borders |
+| **Typography** | `Lilita One` (display/headers/scores) + `Plus Jakarta Sans` (body/UI) via Google Fonts | Distinctive, expressive display font paired with an ultra-clean, readable geometric sans for body and clues |
+| **Grid size** | Configurable — any number of categories × any number of clues | Board auto-sizes via CSS Grid (`minmax(0, 1fr)`) + CSS custom property `--num-categories` |
 | **Turn system** | Host mode — host clicks which player answered, then marks correct/incorrect | Single-screen local play, no real-time buzzer |
-| **Audio** | Web Audio API synthesized sounds (no external audio files) | Zero dependencies |
+| **Audio** | Web Audio API synthesized sounds (no external audio files) | Zero dependencies, instant feedback, lazy AudioContext initialization |
 | **Rounds** | Standard: Jeopardy → Double Jeopardy → Final Jeopardy | Classic game flow |
 | **Module system** | ES modules (`type="module"`, `import`/`export`) | Modern standard, no bundler needed |
+| **Responsiveness & Accessibility** | Hallmark responsive floors (320px–768px), `overflow-x: clip`, `prefers-reduced-motion` | Resilient mobile gameplay without horizontal drift; motion accessibility compliance |
 
 ---
 
@@ -119,62 +122,80 @@ The included `data/questions.json` must contain:
 
 ## HTML Structure — Element ID Contract
 
-The HTML is a single `index.html` with these view containers. **All JS modules must reference these exact IDs.**
+The HTML is a single `index.html` with these view containers and elements. **All JS modules must reference these exact IDs and class names.**
 
 ```
-#mute-btn                          — Fixed top-right mute toggle button (🔊/🔇)
+#mute-btn .mute-btn                — Fixed top-right circular mute toggle with brass border
+  svg.icon-speaker                 — Speaker icon (visible when unmuted)
+  svg.icon-speaker-muted           — Muted speaker icon (visible when .muted)
 
 #setup-screen .view                — Setup view (visible by default)
-  .setup-card
-    h1                             — "JEOPARDY!" title
+  .setup-card                      — Workbench card with brass border & card shadow
+    h1.setup-title                 — "JEOPARDY!" title (Lilita One, SpongeBob Yellow)
+    p.setup-subtitle               — "Add 2–10 players to start"
     #player-list .player-list      — Container for player input groups
       .player-input-group          — One per player (contains input + remove button)
         input.player-name-input    — Player name text input
-        button.remove-btn          — "X" remove button
-    #add-player-btn .add-btn       — "+ Add Player" button
-    #game-data-upload              — <input type="file" accept=".json">
-    #start-game-btn .start-btn     — "Start Game" button
+        button.remove-btn          — Coral remove button ("×")
+    #add-player-btn .add-btn       — "+ Add Player" button (dashed brass border)
+    .upload-row                    — Question file upload group
+      label.upload-label           — "Custom question data (.json)"
+      #game-data-upload            — <input type="file" accept=".json,application/json">
+    #start-game-btn .start-btn     — "Start Game" button (SpongeBob Yellow)
 
 #game-board .view .hidden          — Game board view
-  #round-title .round-title        — Round name banner ("Jeopardy!", "Double Jeopardy!")
-  #board-grid .board-grid          — CSS Grid container (populated by JS)
+  #round-title .round-title        — Round banner card ("Jeopardy!", "Double Jeopardy!")
+  #board-grid .board-grid          — CSS Grid container (populated by JS, minmax(0, 1fr))
+  #round-action .round-action .hidden — Round completion action container
+    #next-round-btn .start-btn     — "Next Round →" button
 
 #clue-modal .overlay .hidden       — Clue question/answer modal
-  .modal-content
-    #clue-header .modal-header     — "Category — $Value"
-    #clue-text .clue-text          — Question text
-    #answer-text .answer-text      — Answer text (hidden until revealed)
-    #show-answer-btn               — "Show Answer" button
-    #eval-controls .hidden         — Evaluation section (hidden until answer shown)
-      #player-pills .player-pills  — Player selection pill buttons
+  .modal-content                   — Modal card with 3px brass border and directional shadow
+    #clue-header .modal-header     — "Category — $Value" (SpongeBob Yellow uppercase)
+    #clue-text .clue-text          — Question text (Plus Jakarta Sans, 600 weight)
+    #answer-text .answer-text .hidden — Answer text (Jellyfish Teal on inset background)
+    #show-answer-btn               — "Show Answer" button (SpongeBob Yellow)
+    #eval-controls .eval-controls .hidden — Evaluation section (revealed with answer)
+      #player-pills .player-pills  — Player selection pill buttons (.player-pill, .active)
       .action-buttons
-        #btn-correct .btn-correct  — "Correct" button
-        #btn-incorrect .btn-incorrect — "Incorrect" button
-        #btn-no-answer .btn-no-answer — "No Answer" button
+        #btn-correct .btn-correct  — "Correct" button (Kelp Green)
+        #btn-incorrect .btn-incorrect — "Incorrect" button (Patrick Coral)
+        #btn-no-answer .btn-no-answer — "No Answer" button (Neutral dark slate)
 
 #daily-double-overlay .overlay .hidden — Daily Double wager overlay
-  .modal-content
-    .dd-text                       — "DAILY DOUBLE!" pulsing text
+  .modal-content .dd-content       — Constrained width modal card
+    .dd-text                       — "DAILY DOUBLE!" display text in Lilita One with text shadow
     .wager-form
-      #wager-info .wager-info      — "PlayerName — Score: $X"
-      #wager-input .wager-input    — Number input for wager
-      #submit-wager-btn .wager-submit — "Submit Wager" button
+      #wager-info .wager-info      — "PlayerName — Score: $X" (Jellyfish Teal)
+      #wager-input .wager-input    — Number input for wager with brass border
+      #submit-wager-btn .wager-submit — "Submit Wager" button (SpongeBob Yellow)
+      #wager-error .wager-error .hidden — Wager validation error text (Patrick Coral)
 
 #final-jeopardy .view .hidden      — Final Jeopardy view
-  .fj-container
-    #fj-title .fj-title            — "Final Jeopardy"
-    #fj-content                    — Dynamic content area (populated by JS through stages)
+  .fj-container                    — Card container with 3px brass border
+    #fj-title .fj-title            — "Final Jeopardy" (Lilita One)
+    #fj-content                    — Dynamic content area rendered through stages:
+                                     - Category (.fj-category)
+                                     - Wagers (.fj-wager-list, .fj-wager-row, #fj-wager-submit)
+                                     - Question (.fj-question)
+                                     - Answer marking (.fj-answer, .fj-mark-list, .fj-mark-row)
 
 #game-over .view .hidden           — Game over view
-  .go-card
-    #winner-text .winner-text      — "🏆 Player Wins!"
-    table.final-scores
-      #final-scores-body           — <tbody> for score rows
+  .go-card                         — Card container with 3px brass border
+    #winner-text .winner-text      — Winner announcement with SVG trophy (.icon-trophy)
+      #winner-name                 — Text container for winner / tie names
+    table.final-scores             — Clean bordered score summary table
+      thead > tr                   — Table header (Jellyfish Teal uppercase)
+      #final-scores-body           — <tbody> for score rows (tr.winner-row for winner)
+    #play-again-btn .start-btn     — "Play Again" button (SpongeBob Yellow)
 
-#scoreboard .hidden                — Fixed bottom scoreboard bar
-  .player-card (.active)           — One per player (populated by JS)
-    .player-name                   — Player name
-    .player-score (.negative)      — Score display
+#scoreboard .hidden                — Fixed bottom scoreboard bar with brass top border
+  .player-card (.active)           — One per player (SpongeBob Yellow border & subtle bg glow)
+    .player-name                   — Player name (Plus Jakarta Sans)
+    .player-score (.negative)      — Score display in Lilita One (Patrick Coral when negative)
+
+.round-banner                      — Dynamic full-screen round transition banner (auto-dismiss 2s)
+  .banner-text                     — Clamped display round title (Lilita One)
 ```
 
 > [!WARNING]
@@ -184,47 +205,147 @@ The HTML is a single `index.html` with these view containers. **All JS modules m
 
 ## CSS Specification
 
-### CSS Custom Properties (`:root`)
+The visual presentation adheres to the Hallmark design system (`genre: playful`, `theme: bikini-bottom`, `macrostructure: Workbench`).
+
+### Design Tokens (`:root`)
 
 ```css
---primary-blue: #006BB6;
---accent-orange: #F58426;
---dark-navy: #1D1160;
---white: #FFFFFF;
---bg-dark: #0a1628;
---num-categories: 6;   /* Overridden by JS per round */
+:root {
+  /* Ocean background & surfaces (OKLCH, nautical lagoon undertone) */
+  --bg-ocean-top: oklch(24% 0.08 225);
+  --bg-ocean-deep: oklch(14% 0.05 230);
+  --surface-card: oklch(20% 0.06 228);
+  --surface-card-hover: oklch(23% 0.07 228);
+  --surface-inset: oklch(14% 0.04 230 / 0.7);
+  --surface-cell: oklch(23% 0.08 232);
+  --surface-cell-hover: oklch(28% 0.10 230);
+  --cell-used: oklch(18% 0.03 230);
+
+  /* SpongeBob & nautical accents */
+  --sponge-yellow: oklch(85% 0.16 95);
+  --sponge-yellow-hover: oklch(88% 0.17 95);
+  --sponge-yellow-active: oklch(80% 0.15 95);
+  --sponge-yellow-subtle: oklch(85% 0.16 95 / 0.16);
+  --text-on-yellow: oklch(16% 0.06 230); /* Dark oceanic ink on yellow: >10:1 contrast (AAA pass) */
+
+  --patrick-coral: oklch(66% 0.18 25);   /* Coral pink for incorrect / destructive / remove */
+  --patrick-coral-hover: oklch(70% 0.19 25);
+  --patrick-coral-active: oklch(62% 0.17 25);
+
+  --kelp-green: oklch(68% 0.16 142);     /* Kelp green for correct */
+  --kelp-green-hover: oklch(72% 0.17 142);
+  --kelp-green-active: oklch(63% 0.15 142);
+
+  --jellyfish-teal: oklch(78% 0.12 195); /* Category text & header highlights */
+  --tiki-brass: oklch(68% 0.11 82);      /* Porthole brass accent */
+
+  /* Inks & Neutrals */
+  --white: oklch(98% 0.01 220);          /* Tinted seafoam white */
+  --text-primary: oklch(98% 0.01 220);
+  --text-muted: oklch(76% 0.05 220);
+  --text-dim: oklch(62% 0.04 220);
+
+  /* Borders & Focus */
+  --border-brass: oklch(65% 0.10 82 / 0.45);
+  --border-subtle: oklch(35% 0.04 228 / 0.5);
+  --border-faint: oklch(28% 0.03 228 / 0.6);
+  --focus-ring: oklch(85% 0.16 95);
+
+  /* Controls & States */
+  --neutral-btn: oklch(34% 0.04 228);
+  --neutral-btn-hover: oklch(40% 0.05 228);
+  --neutral-btn-active: oklch(30% 0.04 228);
+  --disabled-bg: oklch(26% 0.03 230);
+  --disabled-text: oklch(52% 0.03 230);
+
+  --num-categories: 6;   /* Overridden by JS dynamically per round */
+
+  /* 4-pt Spacing scale */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 40px;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  /* Shadows (grounded, directional — tactile depth) */
+  --shadow-card: 0 16px 40px -10px oklch(8% 0.04 230 / 0.65), 0 0 0 1px var(--border-brass);
+  --shadow-modal: 0 24px 60px -12px oklch(6% 0.04 230 / 0.8), 0 0 0 2px var(--border-brass);
+  --shadow-btn: 0 4px 12px -2px oklch(8% 0.04 230 / 0.35);
+
+  /* Easings & Durations */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 0.15s;
+  --dur-mid: 0.25s;
+
+  /* Typography */
+  --font-display: "Lilita One", cursive, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
 ```
 
 ### Key Styling Rules
 
 | Element | Style |
 |---|---|
-| **Body** | `background: var(--bg-dark)`, white text, system sans-serif |
-| **Board grid** | `grid-template-columns: repeat(var(--num-categories), 1fr)` |
-| **Category cells** | Blue bg, white bold uppercase text, rounded corners |
-| **Clue cells** | Dark navy bg, orange dollar text, hover glow/scale, `.used` → grey `#333` |
-| **Clue modal** | Full-screen dark overlay, blue modal card, orange border, slideUp animation |
-| **Daily Double** | Dark navy modal, 5rem pulsing orange text (`@keyframes pulse`) |
-| **Scoreboard** | Fixed bottom, dark navy bg, blue top border, flex row of player cards |
-| **Active player** | Orange border + box-shadow glow on `.player-card.active` |
-| **Negative scores** | Red text (`#d9534f`) via `.negative` class |
-| **Correct/Incorrect buttons** | Green `#5cb85c` / Red `#d9534f` |
-| **Start/action buttons** | Orange bg, white text, bold, scale on hover |
+| **Body** | Lagoon gradient (`linear-gradient(180deg, var(--bg-ocean-top) 0%, var(--bg-ocean-deep) 60%)`, fixed), seafoam white text, `font-family: var(--font-body)`, root `overflow-x: clip` |
+| **Board grid** | `grid-template-columns: repeat(var(--num-categories), minmax(0, 1fr))`, gap `--space-xs` |
+| **Category cells** | `--surface-card` bg, `--border-brass` border, `--jellyfish-teal` uppercase text in `Lilita One`, subtle inner glow |
+| **Clue cells** | `--surface-cell` bg, `--sponge-yellow` dollar text in `Lilita One`, hover lift `translateY(-2px)` + yellow border; `.used` → `--cell-used` bg, transparent text, pointer-events none |
+| **Clue modal** | Full-screen ocean overlay (`oklch(8% 0.04 230 / 0.85)`), `--surface-card` card with 3px brass border, `slideUp` animation |
+| **Clue answer** | `--surface-inset` background with `--border-subtle`, `--jellyfish-teal` bold text |
+| **Daily Double** | `--surface-card` modal, clamp display text in `--sponge-yellow` with deep shadow, brass-bordered wager input |
+| **Scoreboard** | Fixed bottom, `--surface-card` bg with 2px `--border-brass` top border, flex row of player cards with `--surface-inset` |
+| **Active player** | `--sponge-yellow` border + `--sponge-yellow-subtle` background tint on `.player-card.active` / `.player-pill.active` |
+| **Negative scores** | Patrick Coral (`--patrick-coral`) via `.negative` class |
+| **Evaluation buttons** | Kelp Green (`--kelp-green`) for Correct; Patrick Coral (`--patrick-coral`) for Incorrect; Neutral slate (`--neutral-btn`) for No Answer |
+| **Primary buttons** | SpongeBob Yellow (`--sponge-yellow`) bg, dark oceanic ink (`--text-on-yellow`, AAA >10:1), Lilita One font, lift on hover |
+| **Round banner** | Full-screen ocean overlay with large SpongeBob Yellow text in `Lilita One` |
 
-### Required Animations
+### Animations & Reduced Motion
 
 ```css
-@keyframes fadeIn    { from { opacity: 0 } to { opacity: 1 } }
-@keyframes slideUp   { from { translateY(50px), opacity: 0 } to { translateY(0), opacity: 1 } }
-@keyframes pulse     { from { scale(1), opacity: 0.8 } to { scale(1.1), opacity: 1 } }
-@keyframes cellReveal { 0% rotateY(0) → 50% rotateY(90deg) → 100% rotateY(0) }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes cellReveal {
+  0% { transform: rotateY(0); }
+  50% { transform: rotateY(90deg); }
+  100% { transform: rotateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 ```
 
-### Responsive (< 768px)
+### Responsive Standards (< 768px and down to 320px)
 
-- Scoreboard wraps
-- Smaller fonts
-- Board scrollable horizontally
+- Root `overflow-x: clip` on `html` and `body` (prevents horizontal scroll without scrollbar jitter)
+- Board grid columns use `minmax(0, 1fr)` to prevent container blowout
+- Typography uses fluid `clamp()` sizing for titles, clue modal text, and values
+- Scoreboard wraps cards with horizontal scrolling fallback on narrow displays
+- Focus ring: `3px solid var(--focus-ring)` with `2px outline-offset` for full keyboard accessibility
 
 ---
 
@@ -277,10 +398,10 @@ export class AudioManager {
 ```
 
 > [!IMPORTANT]
-> `isMuted()` is a **method** that returns a boolean. Call it as `audio.isMuted()`, not `audio.isMuted`. The `toggleMute()` method returns the new mute state directly, which is often more convenient.
+> `isMuted()` is a **method** that returns a boolean. Call it as `audio.isMuted()`, not `audio.isMuted`. The `toggleMute()` method returns the new mute state directly.
 
 > [!IMPORTANT]
-> **Lazy AudioContext initialization**: Browsers require a user gesture before creating/resuming an AudioContext. Call `init()` (or auto-init inside each play method) on the first user interaction.
+> **Lazy AudioContext initialization**: Browsers require a user gesture before creating/resuming an AudioContext. AudioContext is auto-initialized on first user interaction.
 
 ---
 
@@ -323,6 +444,7 @@ export class Game {
   noAnswer(): void                                 // → BOARD with no score change
 
   // Daily Double
+  getDailyDoubleWagerBounds(): { min: number, max: number }
   setDailyDoubleWager(amount: number): boolean     // Validates wager, → CLUE_SHOWN if valid
   // Valid range: 5 ≤ amount ≤ max(player.score, highestBoardValue)
 
@@ -407,33 +529,42 @@ export class Board {
   renderScoreboard(): void         // Updates #scoreboard with player cards
   markCellUsed(catIndex, clueIndex): void  // Adds .used class, removes click handler
   updateRoundTitle(roundName): void
-  showRoundTransition(roundName): void     // Full-screen overlay banner, auto-dismiss after 2s
+  showRoundTransition(roundName): void     // Full-screen overlay banner (.round-banner), auto-dismiss after 2s
+  showRoundAction(show: boolean): void     // Toggles #round-action visibility
 
   // Clue Modal
-  showClueModal(clue, catName): void       // Shows #clue-modal. Builds player pills. Marks cell used.
+  showClueModal(clue, catName): void       // Shows #clue-modal. Builds player pills.
   showAnswer(answer): void                 // Reveals #answer-text, shows #eval-controls
   hideClueModal(): void                    // Hides #clue-modal
 
   // Daily Double
   showDailyDouble(clue, catName, activePlayer): void  // Shows #daily-double-overlay with wager input
+  hideDailyDouble(): void
+  showWagerError(msg: string): void
 
   // Final Jeopardy (all render into #fj-content)
-  showFinalCategory(category): void
-  showFinalWagerInputs(playersArr): void   // Creates input per player with id="fj-wager-{playerId}"
-  showFinalClue(question): void
-  showFinalAnswerMarking(answer, playersArr): void
+  showFinalCategory(category): void        // Renders .fj-category
+  showFinalWagerInputs(playersArr): void   // Renders .fj-wager-list with #fj-wager-{playerId} inputs
+  showFinalClue(question): void            // Renders .fj-question and "Reveal Answer" button
+  showFinalAnswerMarking(answer, playersArr): void // Renders .fj-answer and .fj-mark-list
 
   // Game Over
-  showGameOver(winner, scoreboard): void   // Populates #winner-text and #final-scores-body
+  showGameOver(winner, scoreboard): void   // Populates #winner-name and #final-scores-body (marks tr.winner-row)
+
+  // View Helpers
+  hideAllViews(): void                     // Hides #game-board, #final-jeopardy, #game-over, #scoreboard
 }
 ```
 
 > [!IMPORTANT]
-> **`board.js` creates elements with specific CSS classes** that must exist in `style.css`:
-> - Board cells: `.category-cell`, `.clue-cell`, `.clue-cell.used`
+> **`board.js` DOM elements and classes in `style.css`**:
+> - Board cells: `.category-cell`, `.clue-cell`, `.clue-cell.used`, `.clue-cell.reveal`
 > - Scoreboard: `.player-card`, `.player-card.active`, `.player-name`, `.player-score`, `.player-score.negative`
 > - Modal pills: `.player-pill`, `.player-pill.active`
-> - Answer buttons: `.correct-btn`, `.incorrect-btn`, `.btn-correct`, `.btn-incorrect`, `.btn-no-answer`
+> - Answer buttons: `.btn-correct`, `.btn-incorrect`, `.btn-no-answer`
+> - Round banner: `.round-banner`, `.banner-text`
+> - Final Jeopardy: `.fj-category`, `.fj-question`, `.fj-wager-list`, `.fj-wager-row`, `.fj-wager-submit`, `.fj-answer`, `.fj-mark-list`, `.fj-mark-row`
+> - Game Over: `.go-card`, `.winner-text`, `.icon-trophy`, `#winner-name`, `table.final-scores`, `tr.winner-row`, `.negative`
 
 ---
 
@@ -446,7 +577,7 @@ Responsibilities:
 3. **Game initialization** — creates `Players`, `Game`, `Board`, `AudioManager` instances
 4. **State change handler** — listens to `game.onStateChange()` and routes to appropriate `board.*` methods + audio cues
 5. **View management** — shows/hides views using `.hidden` class
-6. **Mute button** — wires `#mute-btn` to `audio.toggleMute()`, updates emoji
+6. **Mute button** — wires `#mute-btn` to `audio.toggleMute()`, toggles `.muted` class and speaker SVG icons
 7. **Play Again** — resets and returns to setup screen
 
 #### Audio Cue Triggers
@@ -469,7 +600,7 @@ Responsibilities:
 - **Daily Double**: Only the active player answers. Wager range: \$5 to max(player's score, highest board value). If player's score ≤ 0, max wager = highest board value.
 - **After incorrect (normal clue)**: Other players can still select themselves and answer. The modal stays open.
 - **After incorrect (Daily Double)**: Returns to board immediately (only one chance).
-- **Round complete**: When all clues are used, show a "Next Round" / "Final Jeopardy!" button.
+- **Round complete**: When all clues are used, show a "Next Round" / "Final Jeopardy!" button in `#round-action`.
 - **Final Jeopardy wager**: 0 to player's score (or 0 if score is negative).
 - **Winner**: Player(s) with the highest score. Ties are displayed as co-winners.
 
@@ -477,27 +608,27 @@ Responsibilities:
 
 ## Verification Checklist
 
-- [ ] `index.html` opens in browser, setup screen renders
+- [ ] `index.html` opens in browser; setup screen renders with Bikini Bottom styling (Lilita One title, ocean background)
+- [ ] Typography correctly loads `Lilita One` for titles/display and `Plus Jakarta Sans` for body/inputs
+- [ ] Color tokens adhere to OKLCH palette: deep ocean lagoon gradient, SpongeBob Yellow primary accents, Patrick Coral for removes/incorrect, Kelp Green for correct, Jellyfish Teal for categories, Tiki Brass borders
+- [ ] Start button has AAA contrast (>10:1) with dark oceanic ink on SpongeBob Yellow
 - [ ] Default `questions.json` loads automatically (via fetch)
 - [ ] Can add players (up to 10), remove players (down to 2), names populated from inputs
 - [ ] Start button disabled when < 2 players or no JSON loaded
-- [ ] Board renders with correct number of categories and clue values
-- [ ] Clicking a clue opens the modal with question text
-- [ ] "Show Answer" reveals the answer and player evaluation controls
-- [ ] Selecting a player + "Correct" awards points and returns to board
-- [ ] Selecting a player + "Incorrect" deducts points, other players can still answer
+- [ ] Board renders with correct number of categories and clue values (`minmax(0, 1fr)` columns)
+- [ ] Clicking a clue opens the modal with question text and brass borders
+- [ ] "Show Answer" reveals the answer (Jellyfish Teal on inset background) and player evaluation controls
+- [ ] Selecting a player pill + "Correct" (Kelp Green) awards points and returns to board
+- [ ] Selecting a player pill + "Incorrect" (Patrick Coral) deducts points, other players can still answer
 - [ ] "No Answer" returns to board with no score change
-- [ ] Used cells are greyed out and unclickable
-- [ ] Scoreboard updates in real-time, active player highlighted in orange
-- [ ] Negative scores display in red
-- [ ] Daily Double shows pulsing overlay, wager input, only active player can answer
-- [ ] Daily Double wager validation works (min \$5, max = score or highest board value)
-- [ ] Round completion shows "Next Round" button
-- [ ] Round transition shows full-screen banner briefly
-- [ ] Final Jeopardy: category → wagers → question → answer marking → game over
-- [ ] Final Jeopardy think music plays and stops correctly
-- [ ] Game Over shows winner and sorted final scores table
+- [ ] Used cells are darkened (`--cell-used`) and unclickable
+- [ ] Scoreboard updates in real-time, active player highlighted with SpongeBob Yellow border & subtle glow
+- [ ] Negative scores display in Patrick Coral (`--patrick-coral`)
+- [ ] Daily Double shows modal card, wager input, and validates wager range
+- [ ] Round transition shows brief full-screen banner (`.round-banner`)
+- [ ] Final Jeopardy flow: category → wagers → question → think music → answer marking → game over
+- [ ] Game Over shows winner announcement with trophy icon and styled final scores table (`tr.winner-row`)
 - [ ] "Play Again" returns to setup screen
-- [ ] Mute button toggles all audio
+- [ ] Mute button toggles all audio and switches SVG icons
 - [ ] Custom JSON upload works (both Format A and Format B)
-- [ ] Responsive: layout works at tablet/mobile widths
+- [ ] Responsive & accessibility: verified at 320px / 375px / 414px / 768px with `overflow-x: clip`, and `prefers-reduced-motion` compliance
