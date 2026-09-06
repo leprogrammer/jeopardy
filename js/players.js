@@ -96,6 +96,15 @@ export class Players {
     return list.filter(p => p.score === top);
   }
 
+  /**
+   * Reset all player scores to zero.
+   */
+  reset() {
+    for (const p of this.getPlayers()) {
+      p.score = 0;
+    }
+  }
+
   /** @returns {boolean} true if player count is between 2 and 10 inclusive */
   isValidCount() {
     const count = this.getCount();
