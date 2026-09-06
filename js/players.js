@@ -38,6 +38,22 @@ export class Players {
     if (p) p.score += delta;
   }
 
+  /**
+   * Remove a player by id.
+   * @param {number} id
+   */
+  removePlayer(id) {
+    if (!this._players.has(id)) {
+      throw new Error('Player not found.');
+    }
+    this._players.delete(id);
+    if (this._activePlayerId === id) {
+      // if the removed player was active, pick another or null
+      const remaining = this.getPlayers();
+      this._activePlayerId = remaining.length ? remaining[0].id : null;
+    }
+  }
+
   /** @returns {Array<{id:number,name:string,score:number}>} sorted by id ascending */
   getPlayers() {
     return Array.from(this._players.values()).sort((a, b) => a.id - b.id);
@@ -78,5 +94,11 @@ export class Players {
     if (!list.length) return [];
     const top = list[0].score;
     return list.filter(p => p.score === top);
+  }
+
+  /** @returns {boolean} true if player count is between 2 and 10 inclusive */
+  isValidCount() {
+    const count = this.getCount();
+    return count >= 2 && count <= 10;
   }
 }
