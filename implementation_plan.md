@@ -41,6 +41,21 @@ project-root/
 ---
 
 ## JSON Schema
+### Media Extensions
+Questions may optionally include an **image** or **video** to enrich the play experience. These properties are ignored by the core logic if absent.
+
+| Property | Type | Purpose | Notes |
+|----------|------|---------|-------|
+| `image` | `string` | URL to an image displayed with the clue | Shown above the question text in the modal |
+| `video` | `object` | Video reference | Requires a `url` and a `segments` map.
+| `video.url` | `string` | Source URL (YouTube allowed) | Converted to an iframe or native video element |
+| `video.segments` | `object` | Named segments with start/end seconds | Two keys: `question` and `answer` |
+| `video.segments.question.start` | `number` | Seconds to start the question clip | If omitted, starts at 0 |
+| `video.segments.question.end` | `number` | Seconds to end the question clip | If omitted, plays to end |
+| `video.segments.answer.start` | `number` | Seconds to start the answer clip | If omitted, starts at 0 |
+| `video.segments.answer.end` | `number` | Seconds to end the answer clip | If omitted, plays to end |
+
+During normalisation, the `app.js` module will attach these media objects to each clue. When the clue modal opens, if `image` is present the image is rendered. If `video` is present, the modal will embed a YouTube player and automatically seek to the `question` segment. When the answer is revealed, the player seeks to the `answer` segment and plays it.
 
 The game accepts two JSON formats. The normalizer in `app.js` converts format B → format A on load.
 
@@ -59,7 +74,18 @@ The game accepts two JSON formats. The normalizer in `app.js` converts format B 
               "value": 200,
               "question": "This force keeps planets in orbit around the sun.",
               "answer": "What is gravity?",
-              "isDailyDouble": false
+              "isDailyDouble": false,
+              /*
+               * Optional media property
+               *   "image": "url-to-image.jpg",
+               *   "video": {
+               *     "url": "https://www.youtube.com/watch?v=abcd1234",
+               *     "segments": {
+               *       "question": { "start": 10, "end": 20 },
+               *       "answer":   { "start": 35, "end": 45 }
+               *     }
+               *   }
+               */
             },
             {
               "value": 400,
@@ -117,6 +143,47 @@ The included `data/questions.json` must contain:
 - **Final Jeopardy**: 1 category, 1 question, 1 answer
 - All questions must be factually accurate, interesting trivia
 - Answers phrased as "What is...?" / "Who is...?"
+
+## Error Handling
+The app should validate the uploaded or fetched JSON against the schema. Invalid entries (e.g., missing required fields, duplicate daily doubles, out‑of‑range clue values) must trigger a user‑friendly modal with a clear error message. If a fetch fails (network error or 404), a fallback message prompts the user to retry or load the default `data/questions.json`.
+
+## Upload UX
+* **File size limit** – Reject files larger than 5 MB and display a concise warning.
+* **MIME type check** – Accept only `application/json` or `.json` files; otherwise, show an error.
+* **Progress feedback** – While parsing large files, display a spinner until the JSON is fully read.
+
+## Testing & CI
+Add a `tests/` folder containing unit tests for `players.js`, `game.js`, and integration tests for state transitions. Configure GitHub Actions to run `npm test` on every push to `main` and `feature/*`. The test suite should fail on schema violations or logic regressions.
+
+## Accessibility
+* Use `role="button"` and `aria-label` for all interactive elements.
+* Update the score display with `aria-live="polite"` so screen readers announce changes.
+* Ensure a logical tab order: Setup → Board → Modals → Scoreboard.
+* Provide high‑contrast focus rings (`outline: 3px solid var(--focus-ring)`).
+
+## Keyboard Shortcuts
+* **Space / Enter** – Show answer or submit wager.
+* **M** – Toggle mute.
+* **Arrow keys** – Navigate between clue cells; Enter selects.
+* **Esc** – Close any open modal.
+
+## Persisting State
+Store the current player list, scores, and current game state in `localStorage`. On page load, attempt to restore from storage; if present, offer a “Resume Game” button that restores the exact board state.
+
+## Schema Versioning
+Include a top‑level `"version"` property in the JSON (e.g., `"version": 1`). Future updates can increment the version and provide a migration stub that adapts older schemas to the new format.
+
+## Browser Compatibility
+Target evergreen browsers: Chrome 89+, Firefox 88+, Edge 89+, Safari 14+. Polyfills for `Array.prototype.includes`, `fetch`, and `classList.toggle` are available for older browsers.
+
+## Offline Capability
+Register a Service‑Worker that caches `index.html`, `style.css`, `*.js`, and the default `questions.json`. This allows the game to be playable offline after the first visit.
+
+## Security
+Sanitize any user‑supplied text (questions, answers, media URLs) before inserting into the DOM to prevent XSS. Prefer using `textContent` or a library like DOMPurify.
+
+## Deployment
+The website is a static single‑page app and can be hosted via GitHub Pages. Push the `main` branch to the repository, enable GitHub Pages in the repo settings, and the site will be available at `https://<username>.github.io/<repo>/`.
 
 ---
 
