@@ -38,6 +38,22 @@ export class Players {
     if (p) p.score += delta;
   }
 
+  /**
+   * Remove a player by id.
+   * @param {number} id
+   */
+  removePlayer(id) {
+    if (!this._players.has(id)) {
+      throw new Error('Player not found.');
+    }
+    this._players.delete(id);
+    if (this._activePlayerId === id) {
+      // if the removed player was active, pick another or null
+      const remaining = this.getPlayers();
+      this._activePlayerId = remaining.length ? remaining[0].id : null;
+    }
+  }
+
   /** @returns {Array<{id:number,name:string,score:number}>} sorted by id ascending */
   getPlayers() {
     return Array.from(this._players.values()).sort((a, b) => a.id - b.id);
@@ -78,5 +94,47 @@ export class Players {
     if (!list.length) return [];
     const top = list[0].score;
     return list.filter(p => p.score === top);
+  }
+
+  /**
+   * Reset all player scores to zero.
+   */
+  reset() {
+    for (const p of this.getPlayers()) {
+      p.score = 0;
+    }
+  }
+
+  /** @returns {boolean} true if player count is between 2 and 10 inclusive */
+  isValidCount() {
+    const count = this.getCount();
+    return count >= 2 && count <= 10;
+  }
+
+  /**
+   * Serialize player state.
+   */
+  toJSON() {
+    return {
+      players: Array.from(this._players.values()),
+      nextId: this._nextId,
+      activePlayerId: this._activePlayerId
+    };
+  }
+
+  /**
+   * Restore player state.
+   * @param {object} data
+   */
+  loadState(data) {
+    if (!data) return;
+    this._players.clear();
+    if (Array.isArray(data.players)) {
+      for (const p of data.players) {
+        this._players.set(p.id, { id: p.id, name: p.name, score: p.score });
+      }
+    }
+    this._nextId = data.nextId || (this._players.size + 1);
+    this._activePlayerId = data.activePlayerId != null ? data.activePlayerId : null;
   }
 }

@@ -89,6 +89,13 @@ export class AudioManager {
     });
   }
 
+  /** Single click (~0.1s). */
+  playTimerTick() {
+    this._play(() => {
+      this._tone({ freq: 800, start: 0, duration: 0.05, type: 'square', peak: 0.15 });
+    });
+  }
+
   // ----- Final Jeopardy think music (looping) -----
 
   /**
@@ -158,6 +165,14 @@ export class AudioManager {
   toggleMute() {
     this._muted = !this._muted;
     if (this._muted) this.stopFinalJeopardy();
+    return this._muted;
+  }
+
+  /**
+   * Check if sound is muted.
+   * @returns {boolean}
+   */
+  isMuted() {
     return this._muted;
   }
 }

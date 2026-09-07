@@ -1,6 +1,6 @@
 # Standalone Jeopardy Game Website (Bikini Bottom Edition) — Implementation Plan
 
-Build a fully client-side Jeopardy game that loads custom questions from a JSON file and supports score tracking for 2–10 players. No frameworks, no build tools, no external dependencies — vanilla HTML, CSS, and JavaScript (ES modules), styled with the **Bikini Bottom / Hallmark** design system.
+Build a fully client-side Jeopardy game that loads custom questions from a JSON file and supports score tracking for 2–10 players. No frameworks, no build tools — vanilla HTML, CSS, and JavaScript (ES modules), styled with the **Bikini Bottom / Hallmark** design system. The only external runtime dependency is **DOMPurify** (via CDN) for XSS sanitization of user-uploaded content.
 
 ---
 
@@ -9,6 +9,7 @@ Build a fully client-side Jeopardy game that loads custom questions from a JSON 
 ```
 project-root/
 ├── index.html              # Single-page app entry point
+├── sw.js                   # Service Worker for offline caching
 ├── css/
 │   └── style.css           # All styling (Bikini Bottom theme, grid, modals, scoreboard, responsive)
 ├── js/
@@ -18,10 +19,17 @@ project-root/
 │   ├── game.js             # Core state machine (rounds, scoring, Daily Double, Final Jeopardy)
 │   └── players.js          # Player management (add/remove, scores, active player tracking)
 ├── data/
-│   └── questions.json      # Sample question set (user-replaceable)
-├── implementation_plan.md  # Architectural design & implementation blueprint
+│   └── questions.json      # Sample question set (user-replaceable, includes media examples)
+├── tests/
+│   ├── players.test.js     # Unit tests for Players class
+│   └── game.test.js        # Unit tests for Game state machine
+├── docs/
+│   └── implementation_plan.md  # Architectural design & implementation blueprint
 └── README.md               # Usage guide, JSON schema reference, customization docs
 ```
+
+> [!NOTE]
+> **External CDN dependency**: DOMPurify is loaded via CDN (`<script>` tag in `index.html`) for sanitizing user-uploaded JSON content before DOM insertion. This is the project's only external runtime dependency beyond Google Fonts.
 
 ---
 
@@ -37,10 +45,30 @@ project-root/
 | **Rounds** | Standard: Jeopardy → Double Jeopardy → Final Jeopardy | Classic game flow |
 | **Module system** | ES modules (`type="module"`, `import`/`export`) | Modern standard, no bundler needed |
 | **Responsiveness & Accessibility** | Hallmark responsive floors (320px–768px), `overflow-x: clip`, `prefers-reduced-motion` | Resilient mobile gameplay without horizontal drift; motion accessibility compliance |
+| **Testing** | Vitest (local only, no CI) | Native ES module support, minimal config, fast; run locally via `npx vitest` |
+| **Security** | DOMPurify via CDN | Sanitize question/answer text from user-uploaded JSON before DOM insertion to prevent XSS |
+| **State Persistence** | Full game state in `localStorage` with Resume/New Game modal | Serialize board, used clues, round, scores; prompt user on reload |
+| **Offline** | Service Worker caching static assets | Playable offline after first visit; zero external runtime beyond CDN fonts + DOMPurify |
+| **Browser Targets** | Modern evergreen: Chrome 89+, Firefox 88+, Edge 89+, Safari 15.4+ | No polyfills needed; all required APIs are natively supported |
 
 ---
 
 ## JSON Schema
+### Media Extensions
+Questions may optionally include an **image** or **video** to enrich the play experience. These properties are ignored by the core logic if absent.
+
+| Property | Type | Purpose | Notes |
+|----------|------|---------|-------|
+| `image` | `string` | URL to an image displayed with the clue | Shown above the question text in the modal |
+| `video` | `object` | Video reference | Requires a `url` and a `segments` map.
+| `video.url` | `string` | Source URL (YouTube allowed) | Converted to an iframe or native video element |
+| `video.segments` | `object` | Named segments with start/end seconds | Two keys: `question` and `answer` |
+| `video.segments.question.start` | `number` | Seconds to start the question clip | If omitted, starts at 0 |
+| `video.segments.question.end` | `number` | Seconds to end the question clip | If omitted, plays to end |
+| `video.segments.answer.start` | `number` | Seconds to start the answer clip | If omitted, starts at 0 |
+| `video.segments.answer.end` | `number` | Seconds to end the answer clip | If omitted, plays to end |
+
+During normalisation, the `app.js` module will attach these media objects to each clue. When the clue modal opens, if `image` is present the image is rendered. If `video` is present, the modal will embed a YouTube player and automatically seek to the `question` segment. When the answer is revealed, the player seeks to the `answer` segment and plays it.
 
 The game accepts two JSON formats. The normalizer in `app.js` converts format B → format A on load.
 
@@ -59,7 +87,18 @@ The game accepts two JSON formats. The normalizer in `app.js` converts format B 
               "value": 200,
               "question": "This force keeps planets in orbit around the sun.",
               "answer": "What is gravity?",
-              "isDailyDouble": false
+              "isDailyDouble": false,
+              /*
+               * Optional media property
+               *   "image": "url-to-image.jpg",
+               *   "video": {
+               *     "url": "https://www.youtube.com/watch?v=abcd1234",
+               *     "segments": {
+               *       "question": { "start": 10, "end": 20 },
+               *       "answer":   { "start": 35, "end": 45 }
+               *     }
+               *   }
+               */
             },
             {
               "value": 400,
@@ -117,6 +156,52 @@ The included `data/questions.json` must contain:
 - **Final Jeopardy**: 1 category, 1 question, 1 answer
 - All questions must be factually accurate, interesting trivia
 - Answers phrased as "What is...?" / "Who is...?"
+- **At least 1 clue with an `image` property** (a publicly accessible image URL) to exercise image rendering
+- **At least 1 clue with a `video` property** (a YouTube URL with `question` and `answer` segments) to exercise video embedding
+
+## Error Handling
+The app should validate the uploaded or fetched JSON against the schema. Invalid entries (e.g., missing required fields, duplicate daily doubles, out‑of‑range clue values) must trigger a user‑friendly modal with a clear error message. If a fetch fails (network error or 404), a fallback message prompts the user to retry or load the default `data/questions.json`.
+
+## Upload UX
+* **File size limit** – Reject files larger than 5 MB and display a concise warning.
+* **MIME type check** – Accept only `application/json` or `.json` files; otherwise, show an error.
+* **Progress feedback** – While parsing large files, display a spinner until the JSON is fully read.
+
+## Testing
+Add a `tests/` folder containing unit tests for `players.js` and `game.js` (state transitions, scoring, wager validation, round progression). Use **Vitest** as the test runner — add a minimal `package.json` with `vitest` as a dev dependency and a `"test"` script. Tests run locally via `npm test` or `npx vitest`. No CI pipeline.
+
+## Accessibility
+* Use `role="button"` and `aria-label` for all interactive elements.
+* Update the score display with `aria-live="polite"` so screen readers announce changes.
+* Ensure a logical tab order: Setup → Board → Modals → Scoreboard.
+* Provide high‑contrast focus rings (`outline: 3px solid var(--focus-ring)`).
+
+## Keyboard Shortcuts
+* **Space / Enter** – Show answer or submit wager.
+* **M** – Toggle mute.
+* **Arrow keys** – Navigate between clue cells; Enter selects.
+* **Esc** – Close any open modal.
+
+## Persisting State
+Store the full game state in `localStorage`:
+* **Serialized data**: Player list, scores, active player, current round index, used clues map, question data, Daily Double state, and game phase.
+* **Save triggers**: Save after every state change (score update, clue used, round transition).
+* **Resume flow**: On page load, check for saved state. If found, show a **confirmation modal** with two buttons:
+  - **"Resume Game"** — restores the exact board state (round, used clues, scores, active player) and jumps to the correct view.
+  - **"New Game"** — clears saved state and shows the normal setup screen.
+* **Clear triggers**: Saved state is cleared when the game ends (GAME_OVER) or when the user clicks "Play Again" or "New Game".
+
+## Browser Compatibility
+Target modern evergreen browsers: Chrome 89+, Firefox 88+, Edge 89+, Safari 15.4+. No polyfills required — all APIs used (`fetch`, ES modules, `oklch()`, Web Audio, Service Worker) are natively supported.
+
+## Offline Capability
+Register a Service‑Worker (`sw.js`) that caches `index.html`, `style.css`, all `js/*.js` files, the DOMPurify CDN script, and the default `data/questions.json`. This allows the game to be playable offline after the first visit. Use a cache-first strategy with a versioned cache name for easy invalidation.
+
+## Security
+Sanitize all user‑supplied text (questions, answers, category names, media URLs) from uploaded JSON files using **DOMPurify** (loaded via CDN: `<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>`). Use `DOMPurify.sanitize()` before inserting any JSON-derived content into the DOM via `innerHTML`. For player names and wager inputs, use `textContent` directly (no HTML parsing needed).
+
+## Deployment
+The website is a static single‑page app and can be hosted via GitHub Pages. Push the `main` branch to the repository, enable GitHub Pages in the repo settings, and the site will be available at `https://<username>.github.io/<repo>/`.
 
 ---
 
@@ -196,6 +281,19 @@ The HTML is a single `index.html` with these view containers and elements. **All
 
 .round-banner                      — Dynamic full-screen round transition banner (auto-dismiss 2s)
   .banner-text                     — Clamped display round title (Lilita One)
+
+#resume-modal .overlay .hidden     — Resume game confirmation modal (shown when localStorage state found)
+  .modal-content
+    .resume-text                   — "Resume previous game?" prompt
+    .resume-buttons
+      #resume-yes-btn .start-btn   — "Resume Game" button (SpongeBob Yellow)
+      #resume-no-btn .start-btn    — "New Game" button (Neutral)
+
+#error-modal .overlay .hidden      — JSON validation / upload error modal
+  .modal-content
+    .error-title                   — Error heading
+    .error-message                 — Detailed error text (Patrick Coral)
+    #error-close-btn .start-btn    — "Close" button
 ```
 
 > [!WARNING]
@@ -441,7 +539,8 @@ export class Game {
   showAnswer(): void                               // CLUE_SHOWN → ANSWER_SHOWN
   markCorrect(playerId: number): void              // Awards points, sets active player, → BOARD
   markIncorrect(playerId: number): void            // Deducts points. Daily Double → BOARD. Normal → ANSWER_SHOWN (others can try)
-  noAnswer(): void                                 // → BOARD with no score change
+  noAnswer(): void                                 // Normal clue → BOARD with no score change.
+                                                   // Daily Double → deducts wager from active player, → BOARD.
 
   // Daily Double
   getDailyDoubleWagerBounds(): { min: number, max: number }
@@ -452,12 +551,14 @@ export class Game {
   isRoundComplete(): boolean
   nextRound(): void
   // If more rounds exist → BOARD with { round, isNewRound: true }
+  //   Sets active player: highest score picks first; Player 1 breaks ties.
   // If no more rounds but finalJeopardy exists → FINAL_WAGER
   // Otherwise → endGame()
 
   // Final Jeopardy
   submitFinalWager(playerId: number, amount: number): boolean
-  // Valid range: 0 ≤ amount ≤ max(0, player.score)
+  // Valid range: 0 ≤ amount ≤ player.score (if score > 0)
+  //              0 ≤ amount ≤ 1000        (if score ≤ 0, comeback floor)
   // Auto-transitions to FINAL_CLUE when all wagers submitted
 
   showFinalAnswer(): void                          // FINAL_CLUE → FINAL_ANSWER
@@ -596,39 +697,99 @@ Responsibilities:
 ## Game Rules
 
 - **Scoring**: Correct answer = +value. Incorrect = −value. Scores can go negative.
-- **Board control**: The player who answers correctly gets board control (becomes active player).
+- **Board control (first pick)**:
+  - **Round 1 (Jeopardy)**: Player 1 (first added) picks first.
+  - **Round 2 (Double Jeopardy)**: The player with the highest score picks first. If all players are tied, Player 1 picks first.
+- **Board control (ongoing)**: The player who answers correctly gets board control (becomes active player). After "No Answer," the last active player retains control.
 - **Daily Double**: Only the active player answers. Wager range: \$5 to max(player's score, highest board value). If player's score ≤ 0, max wager = highest board value.
+- **Daily Double "No Answer"**: The active player's wager is **deducted** (treated as incorrect), the answer is shown, and play returns to board.
 - **After incorrect (normal clue)**: Other players can still select themselves and answer. The modal stays open.
 - **After incorrect (Daily Double)**: Returns to board immediately (only one chance).
 - **Round complete**: When all clues are used, show a "Next Round" / "Final Jeopardy!" button in `#round-action`.
-- **Final Jeopardy wager**: 0 to player's score (or 0 if score is negative).
+- **Final Jeopardy wager**: Players with a positive score wager 0 to their score. Players with ≤ \$0 score wager 0 to **\$1000** (a floor that gives them a comeback chance).
 - **Winner**: Player(s) with the highest score. Ties are displayed as co-winners.
 
 ---
 
 ## Verification Checklist
 
+### Core UI & Theme
 - [ ] `index.html` opens in browser; setup screen renders with Bikini Bottom styling (Lilita One title, ocean background)
 - [ ] Typography correctly loads `Lilita One` for titles/display and `Plus Jakarta Sans` for body/inputs
 - [ ] Color tokens adhere to OKLCH palette: deep ocean lagoon gradient, SpongeBob Yellow primary accents, Patrick Coral for removes/incorrect, Kelp Green for correct, Jellyfish Teal for categories, Tiki Brass borders
 - [ ] Start button has AAA contrast (>10:1) with dark oceanic ink on SpongeBob Yellow
-- [ ] Default `questions.json` loads automatically (via fetch)
+
+### Setup & Data Loading
+- [ ] Default `questions.json` loads automatically (via fetch), includes at least one image and one video clue
 - [ ] Can add players (up to 10), remove players (down to 2), names populated from inputs
 - [ ] Start button disabled when < 2 players or no JSON loaded
+- [ ] Custom JSON upload works (both Format A and Format B)
+- [ ] JSON validation catches missing required fields, duplicate daily doubles — shows user-friendly error modal
+- [ ] File upload rejects files > 5 MB and non-JSON MIME types
+
+### Board & Gameplay
 - [ ] Board renders with correct number of categories and clue values (`minmax(0, 1fr)` columns)
+- [ ] Player 1 picks first in Round 1; highest score picks first in Double Jeopardy (Player 1 breaks ties)
 - [ ] Clicking a clue opens the modal with question text and brass borders
+- [ ] Image clues render the image above the question text
+- [ ] Video clues embed a YouTube player and seek to the question segment
 - [ ] "Show Answer" reveals the answer (Jellyfish Teal on inset background) and player evaluation controls
-- [ ] Selecting a player pill + "Correct" (Kelp Green) awards points and returns to board
+- [ ] Video answer segment plays when answer is revealed
+- [ ] Selecting a player pill + "Correct" (Kelp Green) awards points, sets board control, returns to board
 - [ ] Selecting a player pill + "Incorrect" (Patrick Coral) deducts points, other players can still answer
-- [ ] "No Answer" returns to board with no score change
+- [ ] "No Answer" on normal clue returns to board with no score change; last active player retains control
 - [ ] Used cells are darkened (`--cell-used`) and unclickable
 - [ ] Scoreboard updates in real-time, active player highlighted with SpongeBob Yellow border & subtle glow
 - [ ] Negative scores display in Patrick Coral (`--patrick-coral`)
-- [ ] Daily Double shows modal card, wager input, and validates wager range
+
+### Daily Double
+- [ ] Daily Double shows modal card, wager input, and validates wager range (\$5 to max(score, highest board value))
+- [ ] Daily Double "No Answer" deducts the wager from the active player and shows the answer
+- [ ] Daily Double incorrect returns to board immediately (only one chance)
+
+### Round Transitions
 - [ ] Round transition shows brief full-screen banner (`.round-banner`)
+- [ ] Double Jeopardy starts with highest-scoring player as active
+
+### Final Jeopardy
 - [ ] Final Jeopardy flow: category → wagers → question → think music → answer marking → game over
+- [ ] Players with positive scores wager 0 to their score
+- [ ] Players with ≤ \$0 score can wager 0 to \$1000 (comeback floor)
+
+### Game Over & Replay
 - [ ] Game Over shows winner announcement with trophy icon and styled final scores table (`tr.winner-row`)
+- [ ] Ties displayed as co-winners
 - [ ] "Play Again" returns to setup screen
+
+### Audio
 - [ ] Mute button toggles all audio and switches SVG icons
-- [ ] Custom JSON upload works (both Format A and Format B)
-- [ ] Responsive & accessibility: verified at 320px / 375px / 414px / 768px with `overflow-x: clip`, and `prefers-reduced-motion` compliance
+- [ ] Audio cues fire: fanfare (start), daily double arpeggio, correct chime, incorrect buzz, FJ think music
+
+### Keyboard Shortcuts
+- [ ] Arrow keys navigate between clue cells; Enter selects
+- [ ] Space/Enter shows answer or submits wager
+- [ ] M toggles mute
+- [ ] Esc closes any open modal
+
+### State Persistence
+- [ ] On reload with saved state, a Resume/New Game modal appears
+- [ ] "Resume Game" restores exact board state (round, used clues, scores, active player)
+- [ ] "New Game" clears saved state and shows setup screen
+- [ ] Saved state cleared on game over or "Play Again"
+
+### Offline & Security
+- [ ] Service Worker registers and caches static assets (index.html, style.css, js/*, data/questions.json, DOMPurify CDN)
+- [ ] Game is playable offline after first visit
+- [ ] DOMPurify sanitizes all JSON-derived content before DOM insertion
+
+### Testing
+- [ ] `npm test` runs Vitest unit tests for `players.js` and `game.js`
+- [ ] Tests cover: scoring, wager validation, state transitions, board control rules, FJ wager floor, DD no-answer deduction
+
+### Responsive & Accessibility
+- [ ] Verified at 320px / 375px / 414px / 768px with `overflow-x: clip`
+- [ ] `prefers-reduced-motion` compliance (animations disabled)
+- [ ] `aria-label` on all interactive elements, `aria-live="polite"` on scoreboard
+- [ ] Logical tab order: Setup → Board → Modals → Scoreboard
+- [ ] Focus rings: `3px solid var(--focus-ring)` with `2px outline-offset`
+
