@@ -110,4 +110,31 @@ export class Players {
     const count = this.getCount();
     return count >= 2 && count <= 10;
   }
+
+  /**
+   * Serialize player state.
+   */
+  toJSON() {
+    return {
+      players: Array.from(this._players.values()),
+      nextId: this._nextId,
+      activePlayerId: this._activePlayerId
+    };
+  }
+
+  /**
+   * Restore player state.
+   * @param {object} data
+   */
+  loadState(data) {
+    if (!data) return;
+    this._players.clear();
+    if (Array.isArray(data.players)) {
+      for (const p of data.players) {
+        this._players.set(p.id, { id: p.id, name: p.name, score: p.score });
+      }
+    }
+    this._nextId = data.nextId || (this._players.size + 1);
+    this._activePlayerId = data.activePlayerId != null ? data.activePlayerId : null;
+  }
 }

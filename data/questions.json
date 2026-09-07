@@ -8,8 +8,9 @@
           "clues": [
             {
               "value": 200,
-              "question": "Holding the title of the largest animal known ever to have existed, this marine mammal can weigh up to 200 tons.",
-              "answer": "What is the blue whale?",
+              "question": "(Image Clue) Seen gliding over a coral reef in this photograph, this marine reptile has flippers and migrates thousands of miles across oceans to nest on sandy beaches.",
+              "answer": "What is a sea turtle?",
+              "image": "https://images.unsplash.com/photo-1544552866-d3ed42536cfd?w=800",
               "isDailyDouble": false
             },
             {
@@ -119,8 +120,21 @@
             },
             {
               "value": 400,
-              "question": "Directed by James Cameron, this 1997 epic romance and disaster film tied the record for the most Academy Awards won with 11 Oscars.",
-              "answer": "What is Titanic?",
+              "question": "(Video Clue) In this brief teaser clip, a grand ship embarks on its ill-fated maiden voyage: directed by James Cameron, this 1997 epic romance and disaster film tied the record with 11 Academy Awards.",
+              "answer": "What is Titanic? (Extended clip revealed above)",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=kVrqfYjkTdQ",
+                "segments": {
+                  "question": {
+                    "start": 0,
+                    "end": 7
+                  },
+                  "answer": {
+                    "start": 0,
+                    "end": 50
+                  }
+                }
+              },
               "isDailyDouble": false
             },
             {
@@ -346,8 +360,9 @@
             },
             {
               "value": 1600,
-              "question": "Erected as the grand entrance to the 1889 Exposition Universelle in Paris, this 1,083-foot wrought-iron lattice tower was initially condemned as an eyesore.",
+              "question": "(Image Clue) Pictured here soaring above the Champ de Mars in Paris, this 1,083-foot wrought-iron lattice tower was erected as the grand entrance to the 1889 Exposition Universelle.",
               "answer": "What is the Eiffel Tower?",
+              "image": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=800",
               "isDailyDouble": false
             },
             {

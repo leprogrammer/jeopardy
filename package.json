@@ -1,0 +1,13 @@
+{
+  "name": "bikini-bottom-jeopardy",
+  "version": "1.0.0",
+  "description": "Standalone Jeopardy Game Website (Bikini Bottom Edition)",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^1.6.0"
+  }
+}

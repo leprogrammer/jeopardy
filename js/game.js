@@ -3,6 +3,7 @@
 // ============================================================
 
 export const GameState = {
+  SETUP: 'setup',
   BOARD: 'board',
   CLUE_SHOWN: 'clue_shown',
   ANSWER_SHOWN: 'answer_shown',
@@ -69,6 +70,15 @@ export class Game {
 
   /** @returns {number} 0-based */
   getCurrentRoundIndex() { return this._roundIndex; }
+
+  /** @returns {number} number of unused clues in the current round */
+  getRemainingClues() {
+    const round = this.getCurrentRound();
+    if (!round) return 0;
+    return round.categories.reduce((acc, cat) => {
+      return acc + (cat.clues ? cat.clues.filter(c => !c._used).length : 0);
+    }, 0);
+  }
 
   // ----- Clue selection -----
 
@@ -157,8 +167,18 @@ export class Game {
     }
   }
 
-  /** -> BOARD with no score change */
+  /**
+   * Normal clue -> BOARD with no score change.
+   * Daily Double -> deducts wager from active player, -> BOARD.
+   */
   noAnswer() {
+    const clue = this._currentClue;
+    if (clue && clue.isDailyDouble && this._ddWager != null) {
+      const active = this._players.getActivePlayer();
+      if (active) {
+        this._players.updateScore(active.id, -this._ddWager);
+      }
+    }
     this._finishClue();
   }
 
@@ -221,6 +241,13 @@ export class Game {
   _enterRoundBoard(isNewRound) {
     this._currentClue = null;
     this._ddWager = null;
+    if (isNewRound) {
+      // Highest score picks first; Player 1 breaks ties (scoreboard is sorted by score desc, then id asc)
+      const scoreboard = this._players.getScoreboard();
+      if (scoreboard.length > 0) {
+        this._players.setActivePlayer(scoreboard[0].id);
+      }
+    }
     this.setState(GameState.BOARD, { round: this.getCurrentRound(), isNewRound });
   }
 
@@ -240,7 +267,8 @@ export class Game {
   submitFinalWager(playerId, amount) {
     const player = this._players.getPlayer(playerId);
     if (!player) return false;
-    const max = Math.max(0, player.score);
+    // Valid range: 0 <= amount <= player.score (if score > 0), 0 <= amount <= 1000 (if score <= 0, comeback floor)
+    const max = player.score > 0 ? player.score : 1000;
     if (!Number.isFinite(amount) || amount < 0 || amount > max) return false;
     this._fjWagers[playerId] = amount;
     if (this._players.getPlayers().every(p => this._fjWagers[p.id] != null)) {
@@ -276,5 +304,37 @@ export class Game {
       winner: this._players.getWinner(),
       scoreboard: this._players.getScoreboard()
     });
+  }
+
+  /**
+   * Serialize game state.
+   */
+  toJSON() {
+    return {
+      state: this._state,
+      roundIndex: this._roundIndex,
+      data: this._data,
+      fjWagers: this._fjWagers,
+      fjAnswers: this._fjAnswers,
+      currentClue: this._currentClue,
+      ddWager: this._ddWager
+    };
+  }
+
+  /**
+   * Restore game state.
+   * @param {object} saved
+   */
+  loadState(saved) {
+    if (!saved) return;
+    this._roundIndex = saved.roundIndex || 0;
+    this._data = saved.data || this._data;
+    this._rounds = this._data.rounds || [];
+    this._finalJeopardy = this._data.finalJeopardy || null;
+    this._fjWagers = saved.fjWagers || {};
+    this._fjAnswers = saved.fjAnswers || {};
+    this._currentClue = saved.currentClue || null;
+    this._ddWager = saved.ddWager != null ? saved.ddWager : null;
+    this._state = saved.state || GameState.BOARD;
   }
 }

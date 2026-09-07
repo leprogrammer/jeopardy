@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Jeopardy! &mdash; Bikini Bottom Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 </head>
 <body>
   <!-- Fixed mute toggle -->
@@ -38,22 +40,23 @@
   <!-- ===================== GAME BOARD ===================== -->
   <div id="game-board" class="view hidden">
     <div id="round-title" class="round-title">Jeopardy!</div>
-    <div id="board-grid" class="board-grid"></div>
+    <div id="board-grid" class="board-grid" role="grid" aria-label="Jeopardy Board"></div>
     <div id="round-action" class="round-action hidden">
       <button id="next-round-btn" class="start-btn" type="button">Next Round &rarr;</button>
     </div>
   </div>
 
   <!-- ===================== CLUE MODAL ===================== -->
-  <div id="clue-modal" class="overlay hidden">
+  <div id="clue-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="clue-header">
     <div class="modal-content">
       <div id="clue-header" class="modal-header">Category &mdash; $Value</div>
+      <div id="clue-media" class="clue-media hidden"></div>
       <div id="clue-text" class="clue-text">Question text</div>
       <div id="answer-text" class="answer-text hidden">Answer text</div>
-      <button id="show-answer-btn" type="button">Show Answer</button>
+      <button id="show-answer-btn" class="start-btn" type="button">Show Answer</button>
 
       <div id="eval-controls" class="eval-controls hidden">
-        <div id="player-pills" class="player-pills"></div>
+        <div id="player-pills" class="player-pills" role="radiogroup" aria-label="Select player who answered"></div>
         <div class="action-buttons">
           <button id="btn-correct" class="btn-correct" type="button">Correct</button>
           <button id="btn-incorrect" class="btn-incorrect" type="button">Incorrect</button>
@@ -64,14 +67,14 @@
   </div>
 
   <!-- ===================== DAILY DOUBLE ===================== -->
-  <div id="daily-double-overlay" class="overlay hidden">
+  <div id="daily-double-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Daily Double">
     <div class="modal-content dd-content">
       <div class="dd-text">DAILY DOUBLE!</div>
       <div class="wager-form">
         <div id="wager-info" class="wager-info">Player &mdash; Score: $0</div>
-        <input type="number" id="wager-input" class="wager-input" min="5" step="5" placeholder="Wager amount">
+        <input type="number" id="wager-input" class="wager-input" min="5" step="5" placeholder="Wager amount" aria-label="Daily double wager">
         <button id="submit-wager-btn" class="wager-submit" type="button">Submit Wager</button>
-        <div id="wager-error" class="wager-error hidden"></div>
+        <div id="wager-error" class="wager-error hidden" role="alert"></div>
       </div>
     </div>
   </div>
@@ -99,8 +102,28 @@
   </div>
 
   <!-- ===================== SCOREBOARD ===================== -->
-  <div id="scoreboard" class="hidden">
+  <div id="scoreboard" class="hidden" aria-live="polite">
     <!-- player cards populated by JS -->
+  </div>
+
+  <!-- ===================== RESUME MODAL ===================== -->
+  <div id="resume-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="resume-title">
+    <div class="modal-content">
+      <div id="resume-title" class="resume-text">Resume previous game?</div>
+      <div class="resume-buttons">
+        <button id="resume-yes-btn" class="start-btn" type="button">Resume Game</button>
+        <button id="resume-no-btn" class="start-btn resume-new-btn" type="button">New Game</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ERROR MODAL ===================== -->
+  <div id="error-modal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="error-title">
+    <div class="modal-content">
+      <div id="error-title" class="error-title">Notice</div>
+      <div id="error-message" class="error-message"></div>
+      <button id="error-close-btn" class="start-btn" type="button">Close</button>
+    </div>
   </div>
 
   <script type="module" src="js/app.js"></script>
