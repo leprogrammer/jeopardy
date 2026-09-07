@@ -480,7 +480,7 @@ body {
   border: 2px solid var(--border-brass);
   box-shadow: var(--shadow-card);
 }
-.clue-media iframe, .clue-media video {
+.clue-media video {
   width: 100%;
   max-width: 520px;
   aspect-ratio: 16 / 9;
@@ -510,9 +510,25 @@ body {
   color: var(--kelp-green);
 }
 .video-frame-wrapper {
+  --yt-crop: clamp(48px, 12vw, 64px);
   width: 100%;
-  display: flex;
-  justify-content: center;
+  max-width: 520px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-brass);
+  box-shadow: var(--shadow-card);
+  margin-left: auto;
+  margin-right: auto;
+  background: #000;
+}
+.video-frame-wrapper iframe {
+  width: 100%;
+  height: calc(100% + var(--yt-crop));
+  margin-top: calc(-1 * var(--yt-crop));
+  border: none;
+  display: block;
 }
 .video-controls-row {
   display: flex;

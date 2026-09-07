@@ -286,7 +286,7 @@ export class Board {
 
       const iframe = document.createElement('iframe');
       iframe.id = 'clue-video-frame';
-      let src = `https://www.youtube-nocookie.com/embed/${ytid}?autoplay=1&start=${start}`;
+      let src = `https://www.youtube-nocookie.com/embed/${ytid}?autoplay=1&modestbranding=1&rel=0&start=${start}`;
       if (end != null) src += `&end=${end}`;
       iframe.src = sanitize(src);
       iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
@@ -304,7 +304,7 @@ export class Board {
       replayBtn.className = 'video-replay-btn';
       replayBtn.textContent = `↺ Replay ${segmentType === 'answer' ? 'Answer' : 'Question'} Clip`;
       replayBtn.addEventListener('click', () => {
-        let reloadSrc = `https://www.youtube-nocookie.com/embed/${ytid}?autoplay=1&start=${start}`;
+        let reloadSrc = `https://www.youtube-nocookie.com/embed/${ytid}?autoplay=1&modestbranding=1&rel=0&start=${start}`;
         if (end != null) reloadSrc += `&end=${end}`;
         iframe.src = sanitize(reloadSrc);
       });
