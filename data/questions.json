@@ -120,11 +120,11 @@
                 "url": "https://www.youtube.com/watch?v=dcf8UW7cMOI",
                 "segments": {
                   "question": {
-                    "start": 555,
-                    "end": 564
+                    "start": 557,
+                    "end": 565
                   },
                   "answer": {
-                    "start": 555,
+                    "start": 557,
                     "end": 575
                   }
                 }
@@ -133,20 +133,59 @@
             },
             {
               "value": 400,
-              "question": "This Japanese animator co-founded Studio Ghibli and directed masterpieces such as 'Spirited Away' and 'Princess Mononoke'.",
-              "answer": "Who is Hayao Miyazaki?",
+              "question": "(Video Clue) In this brief teaser clip, does the ball go in.",
+              "answer": "What is No? (Extended clip revealed above)",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=5HR36Qdm1vo",
+                "segments": {
+                  "question": {
+                    "start": 393,
+                    "end": 399
+                  },
+                  "answer": {
+                    "start": 557,
+                    "end": 575
+                  }
+                }
+              },
               "isDailyDouble": false
             },
             {
               "value": 600,
-              "question": "Greta Gerwig directed this 2023 fantasy comedy blockbuster starring Margot Robbie and Ryan Gosling.",
-              "answer": "What is Barbie?",
+              "question": "(Video Clue) In this brief teaser clip, does the ball go in.",
+              "answer": "What is No? (Extended clip revealed above)",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=5HR36Qdm1vo",
+                "segments": {
+                  "question": {
+                    "start": 827,
+                    "end": 831
+                  },
+                  "answer": {
+                    "start": 827,
+                    "end": 845
+                  }
+                }
+              },
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "Released in November 1982, this Michael Jackson album remains the best-selling studio album in global music history.",
-              "answer": "What is Thriller?",
+              "question": "(Video Clue) In this brief teaser clip, does the ball go in.",
+              "answer": "What is No? (Extended clip revealed above)",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=XnGptDYBRPs",
+                "segments": {
+                  "question": {
+                    "start": 298,
+                    "end": 299
+                  },
+                  "answer": {
+                    "start": 298,
+                    "end": 305
+                  }
+                }
+              },
               "isDailyDouble": false
             },
             {
