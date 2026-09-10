@@ -114,8 +114,21 @@
           "clues": [
             {
               "value": 200,
-              "question": "In the Marvel Cinematic Universe, this Asgardian Avenger wields Mjolnir and is portrayed by Chris Hemsworth.",
-              "answer": "Who is Thor?",
+              "question": "(Video Clue) In this brief teaser clip, does the ball go in.",
+              "answer": "What is Yes? (Extended clip revealed above)",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=dcf8UW7cMOI",
+                "segments": {
+                  "question": {
+                    "start": 555,
+                    "end": 564
+                  },
+                  "answer": {
+                    "start": 555,
+                    "end": 575
+                  }
+                }
+              },
               "isDailyDouble": false
             },
             {
@@ -145,7 +158,7 @@
                 "segments": {
                   "question": {
                     "start": 0,
-                    "end": 3
+                    "end": 4
                   },
                   "answer": {
                     "start": 0,
