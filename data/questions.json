@@ -110,7 +110,7 @@
           ]
         },
         {
-          "name": "Pop Culture & Cinema",
+          "name": "Buckets",
           "clues": [
             {
               "value": 200,
@@ -120,21 +120,8 @@
             },
             {
               "value": 400,
-              "question": "(Video Clue) In this brief teaser clip, a grand ship embarks on its ill-fated maiden voyage: directed by James Cameron, this 1997 epic romance and disaster film tied the record with 11 Academy Awards.",
-              "answer": "What is Titanic? (Extended clip revealed above)",
-              "video": {
-                "url": "https://www.youtube.com/watch?v=kVrqfYjkTdQ",
-                "segments": {
-                  "question": {
-                    "start": 0,
-                    "end": 7
-                  },
-                  "answer": {
-                    "start": 0,
-                    "end": 50
-                  }
-                }
-              },
+              "question": "This Japanese animator co-founded Studio Ghibli and directed masterpieces such as 'Spirited Away' and 'Princess Mononoke'.",
+              "answer": "Who is Hayao Miyazaki?",
               "isDailyDouble": false
             },
             {
@@ -151,8 +138,21 @@
             },
             {
               "value": 1000,
-              "question": "This Japanese animator co-founded Studio Ghibli and directed masterpieces such as 'Spirited Away' and 'Princess Mononoke'.",
-              "answer": "Who is Hayao Miyazaki?",
+              "question": "(Video Clue) In this brief teaser clip, does the ball go in.",
+              "answer": "What is Yes? (Extended clip revealed above)",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=9gIVGJQ3xWE",
+                "segments": {
+                  "question": {
+                    "start": 0,
+                    "end": 3
+                  },
+                  "answer": {
+                    "start": 0,
+                    "end": 20
+                  }
+                }
+              },
               "isDailyDouble": false
             }
           ]
