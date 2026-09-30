@@ -201,7 +201,7 @@ export class Board {
         img.alt = 'Clue illustration';
         img.loading = 'lazy';
         mediaContainer.appendChild(img);
-      } else if (clue.video && clue.video.url) {
+      } else if (clue.video && clue.video.url && clue.video.segments?.question) {
         this._renderVideoPlayer(mediaContainer, clue.video, 'question');
       } else {
         mediaContainer.classList.add('hidden');
@@ -375,11 +375,15 @@ export class Board {
     this._el('show-answer-btn').classList.add('hidden');
     this._el('eval-controls').classList.remove('hidden');
 
-    // If video clue has segments, switch to the longer answer clip
+    // If video clue has an answer segment, switch to the longer answer clip;
+    // otherwise clear any video so no player lingers without a valid segment.
     const clue = this._lastClue;
     const mediaContainer = this._el('clue-media');
-    if (clue?.video && mediaContainer) {
+    if (clue?.video && clue.video.segments?.answer && mediaContainer) {
       this._renderVideoPlayer(mediaContainer, clue.video, 'answer');
+    } else if (mediaContainer) {
+      mediaContainer.innerHTML = '';
+      mediaContainer.classList.add('hidden');
     }
   }
 

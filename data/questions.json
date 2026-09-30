@@ -4,107 +4,71 @@
       "name": "Jeopardy",
       "categories": [
         {
-          "name": "Oceanography & Marine Life",
+          "name": "Foodie",
           "clues": [
             {
               "value": 200,
-              "question": "(Image Clue) Seen gliding over a coral reef in this photograph, this marine reptile has flippers and migrates thousands of miles across oceans to nest on sandy beaches.",
-              "answer": "What is a sea turtle?",
-              "image": "https://images.unsplash.com/photo-1544552866-d3ed42536cfd?w=800",
+              "question": "Skip the jelly—an online debate once raged over whether it is acceptable to pair this creamy or crunchy spread with mayo.",
+              "answer": "Peanut Butter",
               "isDailyDouble": false
             },
             {
               "value": 400,
-              "question": "Reaching a depth of nearly 36,000 feet, the Challenger Deep is located in this western Pacific Ocean trench.",
-              "answer": "What is the Mariana Trench?",
+              "question": "You'll find this fast-casual giant in food courts across America, serving up massive amounts of its trademark Original Orange Chicken.",
+              "answer": "Panda Express",
               "isDailyDouble": false
             },
             {
               "value": 600,
-              "question": "This warm ocean current originates in the Gulf of Mexico and flows across the Atlantic, bringing milder climates to Western Europe.",
-              "answer": "What is the Gulf Stream?",
+              "question": "Appropriately, this popular Mexican menu item wraps up a word that translates from Spanish as \"little donkey.\"",
+              "answer": "Burrito",
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "Unlike almost all other fish which are cold-blooded, this large, deep-bodied pelagic fish was confirmed in 2015 to be fully warm-blooded.",
-              "answer": "What is the opah?",
+              "question": "Its name comes from an Italian word meaning “corkscrew,” an apt description of this short, tightly twisted pasta.",
+              "answer": "Cavatappi",
               "isDailyDouble": false
             },
             {
               "value": 1000,
-              "question": "Discovered in 1977 along the Galápagos Rift, these seafloor mineral chimneys host unique ecosystems fueled by chemosynthesis rather than sunlight.",
-              "answer": "What are hydrothermal vents?",
+              "question": "The ancient Greek writer Athenaeus wrote the first known recipe for this dessert, which was served to athletes at the first Olympic Games in 776 B.C.",
+              "answer": "Cheesecake",
               "isDailyDouble": false
             }
           ]
         },
         {
-          "name": "World Geography",
+          "name": "Pun-Jabi",
           "clues": [
             {
               "value": 200,
-              "question": "Discharging more water than the next seven largest rivers combined, this South American river flows into the Atlantic Ocean.",
-              "answer": "What is the Amazon River?",
+              "question": "You pick up the phone expecting “Hello,” but instead, this starchy substitute answers the call.",
+              "answer": "\"Aloo?\" (A play on \"Hello\" and aloo, the Hindi word for potato).",
               "isDailyDouble": false
             },
             {
               "value": 400,
-              "question": "Located on the border of Nepal and China in the Mahalangur Himal sub-range, this peak is Earth's highest mountain above sea level.",
-              "answer": "What is Mount Everest?",
+              "question": "When you’re feeling awkward, uncomfortable, and perhaps a little too desi, you might call this person “___.”",
+              "answer": "Embarrass-Singh (embarrassing)",
               "isDailyDouble": false
             },
             {
               "value": 600,
-              "question": "Spanning eleven time zones across eastern Europe and northern Asia, this is the world's largest country by land area.",
-              "answer": "What is Russia?",
+              "question": "This lactose-loving greeting is udderly appropriate when addressing your bro.",
+              "answer": "\"Hey dudh.\" (dude)",
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "Situated on the northern shore of Lake Victoria, Kampala serves as the capital and largest city of this East African nation.",
-              "answer": "What is Uganda?",
-              "isDailyDouble": true
-            },
-            {
-              "value": 1000,
-              "question": "This narrow waterway connects the Atlantic Ocean to the Mediterranean Sea and separates Spain from Morocco.",
-              "answer": "What is the Strait of Gibraltar?",
-              "isDailyDouble": false
-            }
-          ]
-        },
-        {
-          "name": "Science & Nature",
-          "clues": [
-            {
-              "value": 200,
-              "question": "With atomic number 6, this chemical element's ability to form stable bonds with many elements makes it the chemical backbone of all organic life.",
-              "answer": "What is carbon?",
-              "isDailyDouble": false
-            },
-            {
-              "value": 400,
-              "question": "Often nicknamed the powerhouse of the eukaryotic cell, this organelle produces the majority of the cell's ATP.",
-              "answer": "What is the mitochondrion?",
-              "isDailyDouble": false
-            },
-            {
-              "value": 600,
-              "question": "Sitting directly above the troposphere, this atmospheric layer contains the ozone layer which absorbs ultraviolet radiation.",
-              "answer": "What is the stratosphere?",
-              "isDailyDouble": false
-            },
-            {
-              "value": 800,
-              "question": "Symbolized by 'h', this fundamental physical constant relates the energy carried by a photon to its frequency.",
-              "answer": "What is Planck's constant?",
+              "question": "This chickpea curry dish is looking for its forever partner because it’s a true believer in this romantic concept.",
+              "answer": "\"Chole\" mates (soul mates)",
               "isDailyDouble": false
             },
             {
               "value": 1000,
-              "question": "Discovered serendipitously in 1928 by Alexander Fleming, this first modern antibiotic was derived from Penicillium mold.",
-              "answer": "What is penicillin?",
+              "question": "It's the instant cosmic payback you get for spilling a rich, aromatic Mughlai-style curry all over yourself.",
+              "answer": "Korma (Karma)",
               "isDailyDouble": false
             }
           ]
@@ -210,71 +174,156 @@
           ]
         },
         {
-          "name": "History & Legends",
+          "name": "Ball Knower",
           "clues": [
             {
               "value": 200,
-              "question": "Adopted by the Continental Congress on July 4, 1776, this document severed the American colonies' ties to the British Crown.",
-              "answer": "What is the Declaration of Independence?",
+              "question": "The NYE Ball Drop takes place in this iconic location.",
+              "answer": "Times Square",
               "isDailyDouble": false
             },
             {
               "value": 400,
-              "question": "Built for Pharaoh Khufu around 2560 BC, this ancient Egyptian tomb is the oldest and only surviving Wonder of the Ancient World.",
-              "answer": "What is the Great Pyramid of Giza?",
+              "question": "",
+              "answer": "Ball Peen Hammer",
+              "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Buck_Knives_Hammer_%285075278861%29.jpg/500px-Buck_Knives_Hammer_%285075278861%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
               "isDailyDouble": false
             },
             {
               "value": 600,
-              "question": "On Christmas Day in the year 800, Pope Leo III crowned this King of the Franks as the first Holy Roman Emperor.",
-              "answer": "Who is Charlemagne?",
+              "question": "Directed by Mel Brooks, this comedy film is a parody of a widely popular trilogy.",
+              "answer": "Spaceballs",
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "Sealed by King John of England at Runnymede in 1215, this 'Great Charter' first established the principle that everyone is subject to the law.",
-              "answer": "What is the Magna Carta?",
+              "question": "The largest ball of twine (by circumference) is located in this state.",
+              "answer": "Kansas",
               "isDailyDouble": false
             },
             {
               "value": 1000,
-              "question": "Waged intermittently from 1337 to 1453 over the French throne, this series of armed conflicts famously lasted 116 years.",
-              "answer": "What is the Hundred Years' War?",
+              "question": "Wesley Warren Jr. is credited for having the largest scrotum in history, after an injury caused it to swell close to the size of a soccer ball and a weight of ___ lbs. (+-10lbs)",
+              "answer": "132 (122 to 142)",
               "isDailyDouble": false
             }
           ]
         },
         {
-          "name": "Literature & Mythology",
+          "name": "Trips",
           "clues": [
             {
               "value": 200,
-              "question": "In Greek myth, this demigod son of Zeus was condemned to perform twelve legendary labors by King Eurystheus.",
-              "answer": "Who is Heracles?",
+              "question": "If you visited Singapore in 2025, you saw signs for SG60 which celebrated Singapore's 60 years of independence from this year.",
+              "answer": "1965",
               "isDailyDouble": false
             },
             {
               "value": 400,
-              "question": "Opening with the line 'Call me Ishmael', this 1851 Herman Melville novel chronicles Captain Ahab's obsessive pursuit of a white sperm whale.",
-              "answer": "What is Moby-Dick?",
+              "question": "The soundtrack from this popular Disney movie trilogy released from 2006 to 2008 was all we listened to on our drives in Iceland. We had to get our head in the game",
+              "answer": "High School Musical",
               "isDailyDouble": false
             },
             {
               "value": 600,
-              "question": "In Norse mythology, this shapeshifting trickster is the father of Hel, Fenrir, and the World Serpent Jormungandr.",
-              "answer": "Who is Loki?",
+              "question": "Many movies have been filmed in this famous gothic revival castle-style mansion in Toronto such as X-Men, the Pacifier, and Scott Pilgrim vs. the World",
+              "answer": "Casa Loma",
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "Subtitled 'The Modern Prometheus', this 1818 gothic novel was written by an 18-year-old Mary Shelley during a rainy summer in Switzerland.",
-              "answer": "What is Frankenstein?",
+              "question": "The famous cross-country highway, Route 66, which is 2,448 miles long starts in Chicago and ends in this city in California",
+              "answer": "Santa Monica",
               "isDailyDouble": false
             },
             {
               "value": 1000,
-              "question": "This 14th-century Italian narrative poem by Dante Alighieri guides the reader through Inferno, Purgatorio, and Paradiso.",
-              "answer": "What is the Divine Comedy?",
+              "question": "This popular park in Vancouver has a bridge through the middle of it crossing a river. Saurabh thought it was a museum about suspension bridges",
+              "answer": "Capilano Suspension Bridge Park",
+              "isDailyDouble": false
+            }
+          ]
+        },
+        {
+          "name": "Spongebob Squarepants",
+          "clues": [
+            {
+              "value": 200,
+              "question": "This is funnier than 24",
+              "answer": "25 (Something Funnier Than 24)",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=u8rdlMUnwho",
+                "segments": {
+                  "answer": {
+                    "start": 0,
+                    "end": 13
+                  }
+                }
+              },
+              "isDailyDouble": false
+            },
+            {
+              "value": 400,
+              "question": "What Spongebob asks Squidward when he checks in on him after leaving him alone",
+              "answer": "Have you finished those errands?",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=86CK_kd8kY4",
+                "segments": {
+                  "question": {
+                    "start": 0,
+                    "end": 5
+                  },
+                  "answer": {
+                    "start": 0,
+                    "end": 20
+                  }
+                }
+              },
+              "isDailyDouble": false
+            },
+            {
+              "value": 600,
+              "question": "The band would sound better if Mr.Krabs didn't try to play an instrument with these",
+              "answer": "Big Meaty Claws",
+              "video": {
+                "url": "www.youtube.com/watch?v=pRDY6lmvAF4",
+                "segments": {
+                  "answer": {
+                    "start": 0,
+                    "end": 28
+                  }
+                }
+              },
+              "isDailyDouble": false
+            },
+            {
+              "value": 800,
+              "question": "What Patrick grabs when Spongebob teaches him how to open a jar",
+              "answer": "Pickle (That's a Pickle)",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=a89ChTdUFrc",
+                "segments": {
+                  "answer": {
+                    "start": 0,
+                    "end": 11
+                  }
+                }
+              },
+              "isDailyDouble": false
+            },
+            {
+              "value": 1000,
+              "question": "Inhabitants *pbbt* of *pbbt* this *pbbt* city *pbbt* speak *pbbt* with *pbbt* a *pbbt* unique *pbbt* acccent *pbbt*.",
+              "answer": "Rock Bottom",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=LkNuo1P7M0s",
+                "segments": {
+                  "answer": {
+                    "start": 0,
+                    "end": 27
+                  }
+                }
+              },
               "isDailyDouble": false
             }
           ]
@@ -285,212 +334,251 @@
       "name": "Double Jeopardy",
       "categories": [
         {
-          "name": "Space & Astronomy",
+          "name": "Jasmine's Deep Cuts",
           "clues": [
             {
               "value": 400,
-              "question": "This fourth planet from the Sun is home to Olympus Mons, a shield volcano nearly three times the height of Mount Everest.",
-              "answer": "What is Mars?",
+              "question": "Despite being a self-proclaimed savory girl who would choose salty over sweet any day, this circular baked good remains one of Jasmine's favorite guilty pleasures.",
+              "answer": "Donuts",
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "First proposed by Georges Lemaître, this prevailing cosmological model posits that the observable universe originated approximately 13.8 billion years ago.",
-              "answer": "What is the Big Bang theory?",
-              "isDailyDouble": true
+              "question": "Jasmine and Saurabh takes trips to New England states often, where the trees are plentiful, the vibes are immaculate, and apparently one singer has written an unreasonable number of songs about it.",
+              "answer": "Noah Kahan",
+              "isDailyDouble": false
             },
             {
               "value": 1200,
-              "question": "Launched on December 25, 2021, this primary space observatory operates near the Sun-Earth L2 Lagrange point with a 6.5-meter gold-coated mirror.",
-              "answer": "What is the James Webb Space Telescope?",
+              "question": "Jasmine may have entered adulthood, but she refuses to leave behind this children's show featuring a family of Australian dogs.",
+              "answer": "Bluey",
               "isDailyDouble": false
             },
             {
               "value": 1600,
-              "question": "Defined by the Schwarzschild radius, this theoretical boundary around a black hole marks the threshold where escape velocity exceeds the speed of light.",
-              "answer": "What is the event horizon?",
+              "question": "Jasmine doesn't need to read the bubble tea menu. She sees this tropical fruit flavor and suddenly develops a very strong feeling about what she's ordering.",
+              "answer": "Passionfruit",
               "isDailyDouble": false
             },
             {
               "value": 2000,
-              "question": "Discovered in 1967 by astronomer Jocelyn Bell Burnell, these rapidly rotating magnetized neutron stars emit regular pulses of radiation.",
-              "answer": "What are pulsars?",
+              "question": "Where it all began:\n\n40.97045, -73.07297",
+              "answer": "Gazebo at Pirate's Cove\nExtra points if people guess our true first meeting: walked kosmo around eisenhower park and went to sonic afterwards",
               "isDailyDouble": false
             }
           ]
         },
         {
-          "name": "World Cuisine & Food Science",
+          "name": "Slur(s)",
           "clues": [
             {
               "value": 400,
-              "question": "Created in Naples in 1889 to honor an Italian queen, this pizza showcases the colors of Italy's flag with tomato, mozzarella, and basil.",
-              "answer": "What is Pizza Margherita?",
+              "question": "A mixture of dense solids suspended in a liquid, often water.",
+              "answer": "Slurry",
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "Named for a French physician, this chemical reaction between amino acids and reducing sugars gives seared meat and baked bread their browned crusts and savory aromas.",
-              "answer": "What is the Maillard reaction?",
+              "question": "Artificial object designed to mimic the characteristics of natural prey. Plural.",
+              "answer": "Lures",
               "isDailyDouble": false
             },
             {
               "value": 1200,
-              "question": "Harvested by hand from the stigmas of Crocus sativus flowers, this pungent golden spice is the most expensive culinary ingredient by weight.",
-              "answer": "What is saffron?",
+              "question": "A prescribed guide for conduct or action. Plural.",
+              "answer": "Rules",
               "isDailyDouble": false
             },
             {
               "value": 1600,
-              "question": "Codified by Auguste Escoffier, Béchamel, Velouté, Espagnole, Sauce Tomat, and Hollandaise are known in French cuisine as these fundamental sauces.",
-              "answer": "What are the mother sauces?",
+              "question": "A symbol in musical notation indicating that the notes it embraces are to be played without separation.",
+              "answer": "Slur",
               "isDailyDouble": false
             },
             {
               "value": 2000,
-              "question": "Hailing from Oaxaca and Puebla, this intricate traditional Mexican sauce family commonly incorporates dried chiles, nuts, seeds, spices, and chocolate.",
-              "answer": "What is mole?",
+              "question": "An often comforting or satisfying sense of finality.",
+              "answer": "Closure",
               "isDailyDouble": false
             }
           ]
         },
         {
-          "name": "Inventions & Technology",
+          "name": "Before & After",
           "clues": [
             {
               "value": 400,
-              "question": "Established in 1969 by the U.S. Department of Defense, this groundbreaking packet-switching network was the precursor to the global Internet.",
-              "answer": "What is ARPANET?",
+              "question": "He'll catch a grenade for you, but after he finishes a robot for NASA.",
+              "answer": "Bruno Mars Rover",
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "Around 1440 in Mainz, Germany, this craftsman introduced movable metal type to Europe, igniting a revolution in the spread of knowledge.",
-              "answer": "Who is Johannes Gutenberg?",
+              "question": "This sandbox MMO is the victim of unmerited blame.",
+              "answer": "Runescapegoat",
               "isDailyDouble": false
             },
             {
               "value": 1200,
-              "question": "Invented at Bell Labs in 1947 by Shockley, Bardeen, and Brattain, this miniature semiconductor device replaced bulky vacuum tubes in electronic circuits.",
-              "answer": "What is the transistor?",
+              "question": "The First State has lots of places for storing goods.",
+              "answer": "Delawarehouse",
               "isDailyDouble": false
             },
             {
               "value": 1600,
-              "question": "In a seminal 1936 paper, this British mathematician conceived an abstract computing device that formalized the modern foundation of computer science.",
-              "answer": "Who is Alan Turing?",
-              "isDailyDouble": true
+              "question": "Black Labrador-Husky mix leaves the island to see how far he'll go.",
+              "answer": "Kosmoana",
+              "isDailyDouble": false
             },
             {
               "value": 2000,
-              "question": "Published in October 2008 under the pseudonym Satoshi Nakamoto, this nine-page whitepaper introduced the first decentralized cryptocurrency.",
-              "answer": "What is Bitcoin?",
+              "question": "Big Dawg eating soup.",
+              "answer": "Jasminestrone",
               "isDailyDouble": false
             }
           ]
         },
         {
-          "name": "World Capitals & Landmarks",
+          "name": "Par-Tee Time",
           "clues": [
             {
               "value": 400,
-              "question": "Home to the Colosseum, Trevi Fountain, and the independent enclave of Vatican City, this capital is hailed as the 'Eternal City'.",
-              "answer": "What is Rome?",
+              "question": "This score is one stroke under par on a hole, and despite its name, no actual bird is required.",
+              "answer": "Birdie",
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "Commissioned in 1631 by Mughal Emperor Shah Jahan to house the tomb of his favorite wife Mumtaz Mahal, this ivory-white marble mausoleum stands in Agra, India.",
-              "answer": "What is the Taj Mahal?",
+              "question": "Tiger Woods became the youngest player ever to win this major championship, taking the title in 1997 by a record 12 strokes.",
+              "answer": "Masters",
               "isDailyDouble": false
             },
             {
               "value": 1200,
-              "question": "Resting over 11,900 feet above sea level in the Andes mountains, this Bolivian administrative center is the highest capital city in the world.",
-              "answer": "What is La Paz?",
+              "question": "In golf, this term describes a score of two strokes under par on a single hole.",
+              "answer": "Eagle",
               "isDailyDouble": false
             },
             {
               "value": 1600,
-              "question": "(Image Clue) Pictured here soaring above the Champ de Mars in Paris, this 1,083-foot wrought-iron lattice tower was erected as the grand entrance to the 1889 Exposition Universelle.",
-              "answer": "What is the Eiffel Tower?",
-              "image": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=800",
+              "question": "Forget traffic on the LIE—this Farmingdale destination had an even bigger invasion in 2025, welcoming the world's best golfers for this U.S. vs. Europe showdown.",
+              "answer": "Ryder Cup",
               "isDailyDouble": false
             },
             {
               "value": 2000,
-              "question": "Famous for its rock-cut architecture and water conduit system, this ancient Nabataean capital carved into red sandstone cliffs lies in southern Jordan.",
-              "answer": "What is Petra?",
+              "question": "He never won the U.S. Open, but this legendary golfer captured the British Open in 1961 and 1962, becoming the first American to win it since 1925.",
+              "answer": "Arnold Palmer",
               "isDailyDouble": false
             }
           ]
         },
         {
-          "name": "Music, Art & Architecture",
+          "name": "Spongebob Squarepants",
           "clues": [
             {
               "value": 400,
-              "question": "Painted by Leonardo da Vinci between 1503 and 1519, this masterpiece displayed in the Louvre is celebrated for its subject's subtle, elusive expression.",
-              "answer": "What is the Mona Lisa?",
+              "question": "Help Wanted (S1 E1a): Five busloads of this fish invade the Krusty Krab",
+              "answer": "anchovies",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=nsfgPRga9gY",
+                "segments": {
+                  "question": {
+                    "start": 0,
+                    "end": 17
+                  },
+                  "answer": {
+                    "start": 0,
+                    "end": 30
+                  }
+                }
+              },
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "Premiered in Vienna in 1824 when the composer was profoundly deaf, Ludwig van Beethoven's Symphony No. 9 culminates in this celebrated choral movement.",
-              "answer": "What is 'Ode to Joy'?",
+              "question": "Arrgh! (S1 E17a): The cardinal direction Patrick mispronounces, sending the crew in the wrong direction",
+              "answer": "West (\"weast\")",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=RuJNUXT2a9U",
+                "segments": {
+                  "answer": {
+                    "start": 0,
+                    "end": 24
+                  }
+                }
+              },
               "isDailyDouble": false
             },
             {
               "value": 1200,
-              "question": "Depicting the view from his asylum room in Saint-Rémy-de-Provence, 'The Starry Night' was created in June 1889 by this Dutch Post-Impressionist painter.",
-              "answer": "Who is Vincent van Gogh?",
+              "question": "Valentine's Day (S1 E16a): The present SpongeBob and Sandy prepare for Patrick",
+              "answer": "chocolate hot air balloon",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=x8iRRCzAADg",
+                "segments": {
+                  "answer": {
+                    "start": 0,
+                    "end": 27
+                  }
+                }
+              },
               "isDailyDouble": false
             },
             {
               "value": 1600,
-              "question": "Designed by Antoni Gaudí with organic Art Nouveau spires, this soaring Roman Catholic minor basilica in Barcelona has been under construction since 1882.",
-              "answer": "What is the Basílica de la Sagrada Família?",
+              "question": "Pizza Delivery (S1 E5a): This was missing from the customer's pizza order",
+              "answer": "Diet Dr.Kelp",
+              "video": {
+                "url": "https://www.youtube.com/watch?v=i1k9HesoM5w",
+                "segments": {
+                  "answer": {
+                    "start": 0,
+                    "end": 35
+                  }
+                }
+              },
               "isDailyDouble": false
             },
             {
               "value": 2000,
-              "question": "A pioneer of the Prairie School, this American master designed iconic structures such as Fallingwater in Pennsylvania and the spiral Guggenheim Museum in New York.",
-              "answer": "Who is Frank Lloyd Wright?",
+              "question": "Regarding Plankton's computer wife, Karen, is what W.I.F.E stands for",
+              "answer": "Wired Integrated Female Electroencephalograph",
               "isDailyDouble": false
             }
           ]
         },
         {
-          "name": "Words, Idioms & Languages",
+          "name": "Saurabh out of Context",
           "clues": [
             {
               "value": 400,
-              "question": "Derived from the ancient Greek word for 'purification', this term denotes the emotional release or therapeutic purging experienced by viewing drama.",
-              "answer": "What is catharsis?",
+              "question": "Y r u always yelling (2025)",
+              "answer": "Ford sending messages in all CAPS",
               "isDailyDouble": false
             },
             {
               "value": 800,
-              "question": "Boasting nearly one billion native speakers predominantly in East Asia, this group of dialects constitutes the most spoken first language on Earth.",
-              "answer": "What is Mandarin Chinese?",
+              "question": "I will straight up fly to LA again for that corn (2024)",
+              "answer": "Saurabh talking about elote (mexican street corn in a cup with cheetos, butter, mayo, cheese)",
               "isDailyDouble": false
             },
             {
               "value": 1200,
-              "question": "From Greek roots meaning 'running back again', this word describes a sequence of characters that reads identically forward and backward, such as 'racecar'.",
-              "answer": "What is a palindrome?",
+              "question": "Bro that gum was F R E S H (2022)",
+              "answer": "Saurabh talking about the gum wall in Seattle",
               "isDailyDouble": false
             },
             {
               "value": 1600,
-              "question": "Named for a blunder-prone character in Richard Sheridan's 1775 play 'The Rivals', this error involves substituting an incorrect word for a similar-sounding one.",
-              "answer": "What is a malapropism?",
+              "question": "This is how Tim asks if u want to eat his ass. Don't get baited like me (2024)",
+              "answer": "Saurabh replying to Tim asking Tejas to meet up for a cheeky mid afternoon sweet treat",
               "isDailyDouble": false
             },
             {
               "value": 2000,
-              "question": "Combining the German words for 'damage' and 'joy', this compound noun describes the complex pleasure felt when witnessing someone else's misfortune.",
-              "answer": "What is Schadenfreude?",
+              "question": "I can't thank you guys enough for this, especially those who I only met recently, y'all are true homies and I appreciate all of you! (2022)",
+              "answer": "Saurabh's message to everyone who helped with his Birthday gift after getting it 2022",
               "isDailyDouble": false
             }
           ]
@@ -499,8 +587,8 @@
     }
   ],
   "finalJeopardy": {
-    "category": "American Government & Law",
-    "question": "This 1803 Supreme Court decision, authored by Chief Justice John Marshall, established the principle of judicial review — the power of courts to strike down laws that conflict with the Constitution.",
-    "answer": "What is Marbury v. Madison?"
+    "category": "Final Jeopardy",
+    "question": "This Southern Native American nation shares its name with a mid-size SUV that debuted in 1974 and became one of the most successful models in its history",
+    "answer": "Cherokee"
   }
 }
