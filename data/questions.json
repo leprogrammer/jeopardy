@@ -119,15 +119,15 @@
               "question": "(Video Clue) In this brief teaser clip, does the ball go in?",
               "answer": "Yes (Extended clip revealed above)",
               "video": {
-                "url": "https://www.youtube.com/watch?v=UkzgQcH1vj4",
+                "url": "data/buckets.mp4",
                 "segments": {
                   "question": {
-                    "start": 709,
-                    "end": 713
+                    "start": 0,
+                    "end": 5
                   },
                   "answer": {
-                    "start": 709,
-                    "end": 725
+                    "start": 0,
+                    "end": 9
                   }
                 }
               },

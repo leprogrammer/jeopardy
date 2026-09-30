@@ -43,12 +43,38 @@ const server = http.createServer((req, res) => {
 
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-    res.writeHead(200, {
+    const fileSize = stats.size;
+    const rangeHeader = req.headers['range'];
+
+    const baseHeaders = {
       'Content-Type': contentType,
       'Referrer-Policy': 'strict-origin-when-cross-origin',
-      'Access-Control-Allow-Origin': '*'
-    });
-    fs.createReadStream(filePath).pipe(res);
+      'Access-Control-Allow-Origin': '*',
+      'Accept-Ranges': 'bytes',
+    };
+
+    if (rangeHeader) {
+      // Parse "bytes=start-end"
+      const [, rangeStr] = rangeHeader.split('=');
+      const [rawStart, rawEnd] = rangeStr.split('-');
+      const start = parseInt(rawStart, 10);
+      const end = rawEnd ? parseInt(rawEnd, 10) : fileSize - 1;
+
+      if (start >= fileSize || end >= fileSize || start > end) {
+        res.writeHead(416, { 'Content-Range': `bytes */${fileSize}` });
+        return res.end();
+      }
+
+      res.writeHead(206, {
+        ...baseHeaders,
+        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+        'Content-Length': end - start + 1,
+      });
+      fs.createReadStream(filePath, { start, end }).pipe(res);
+    } else {
+      res.writeHead(200, { ...baseHeaders, 'Content-Length': fileSize });
+      fs.createReadStream(filePath).pipe(res);
+    }
   });
 });
 
